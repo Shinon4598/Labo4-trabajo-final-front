@@ -1,15 +1,13 @@
-import { useState } from 'react';
-import './assets/css/App.css';
+// src/App.jsx
+import React from 'react';
+import AppRoutes from './routes/AppRoutes';
 
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <h1>Hello World{count ? ` N°${count}` : ''}</h1>
-      <button onClick={() => setCount(count + (count ? 1 : 2))}>Boton</button>
-    </>
-  );
-}
+const App = () => {
+    return (
+        <div className="App">
+            <AppRoutes />
+        </div>
+    );
+};
 
 export default App;
