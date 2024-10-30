@@ -8,7 +8,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate(); // Inicializa el hook useNavigate
+    const navigate = useNavigate(); // Inicializa el hook useNavigate 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
