@@ -48,14 +48,11 @@ const Login = () => {
                     required={true}
                 />
                 {error && <p>{error}</p>}
-
-                <div className="text-center mt-3">
-                    <a href="/forgot-password">Olvidé mi contraseña</a>
-                </div>
                 <div className="text-center">
                     <Button type="submit">Iniciar Sesión</Button>
                 </div>
-            <Button type="button" className="secondary">Registrece</Button>
+                <a href="/register">No tienes un usuario?</a>
+                <Button type="button" className="secondary">Registrate</Button>
 
             </form>
 

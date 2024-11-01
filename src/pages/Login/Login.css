@@ -12,8 +12,10 @@ form{
     min-width: 40vw;
 }
 a{
+    display: inline-block;
+    text-align: center;
     color: #4A789C;
-    margin-bottom: 1rem;
+    margin-top:1rem;
     text-decoration: none;
 }
 @media screen and (max-width: 768px){
