@@ -1,15 +1,18 @@
-export default function Input({ label, type, value, onChange, placeholder, required }) {
+import './Input.css';
+export default function Input({ label, type, value, onChange,  required}) {
     return (
         <div className="form-group">
-            <label>{label}</label>
             <input
                 className="form-control"
+                id={value}
                 type={type}
                 value={value}
                 onChange={onChange}
-                placeholder={placeholder}
                 required={required}
+                placeholder=' '
             />
+            <label htmlFor={label} className='form-label'>{label}</label>
+            
         </div>
     );
 }

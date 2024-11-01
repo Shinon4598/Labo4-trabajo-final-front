@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import Navbar from '../../components/NavBar/Navbar'; 
 import Input from '../../components/Inputs/Input'; 
 import './Login.css';
+import Button from '../../components/Buttons/Button-clasic/Button';
+
 const Login = () => {
     const { login } = useAuth(); // Usa el hook para obtener la función de login
     const [email, setEmail] = useState('');
@@ -26,7 +28,7 @@ const Login = () => {
     return (
         <>
         <Navbar/>
-        <main className='container p-5 d-flex flex-column'>
+        <main className='login-container'>
             <h3 className='text-center'>Iniciar sesión</h3>
             <form onSubmit={handleSubmit}>
                 <Input 
@@ -34,7 +36,7 @@ const Login = () => {
                     type="email" 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)} 
-                    placeholder={email} 
+                    placeholder="email"
                     required={true}
                 /> 
                 <Input
@@ -51,10 +53,12 @@ const Login = () => {
                     <a href="/forgot-password">Olvidé mi contraseña</a>
                 </div>
                 <div className="text-center">
-                    <button type="submit" class="btn btn-primary w-50 m-auto mt-3">Iniciar sesión</button>
+                    <Button type="submit">Iniciar Sesión</Button>
                 </div>
+            <Button type="button" className="secondary">Registrece</Button>
+
             </form>
-            <button  type="submit" class="btn btn-secondary w-50 m-auto mt-3">Registrate</button>
+
 
         </main>
         
