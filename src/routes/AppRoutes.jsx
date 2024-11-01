@@ -3,9 +3,9 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext'; // Asegúrate de que el hook esté bien implementado
 import Home from '../views/Home';
-import IdeaGeneratorForm from '../components/IdeaGeneratorForm';
-import IdeaHistory from '../components/IdeaHistory';
-import Login from '../components/Login';
+import IdeaGeneratorForm from '../pages/IdeaGeneratorForm';
+import IdeaHistory from '../pages/IdeaHistory';
+import Login from '../pages/Login';
 
 const AppRoutes = () => {
     const { currentUser } = useAuth();
