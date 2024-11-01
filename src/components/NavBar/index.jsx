@@ -7,7 +7,9 @@ export default function Navbar(props) {
                     <img className="img mx-3" src="/src/assets/logo.png" alt="logo" />
                     Idea Generator
                 </a>
-                {props.children}
+                <div className="navbar-children">
+                    {props.children}
+                </div>
             </div>
         </nav>
     )

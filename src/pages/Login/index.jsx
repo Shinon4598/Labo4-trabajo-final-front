@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext'; // Importa el hook
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
-import Navbar from '../../components/NavBar/Navbar'; 
+import Navbar from '../../components/NavBar'; 
 import Input from '../../components/Inputs/Input'; 
 import './Login.css';
-import Button from '../../components/Buttons/Button-clasic/Button';
+import Button from '../../components/Button';
 
 const Login = () => {
     const { login } = useAuth(); // Usa el hook para obtener la función de login

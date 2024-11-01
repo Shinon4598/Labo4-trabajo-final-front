@@ -2,7 +2,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext'; // Asegúrate de que el hook esté bien implementado
-import Home from '../views/Home';
+import Home from '../pages/Home';
 import IdeaGeneratorForm from '../pages/IdeaGeneratorForm';
 import IdeaHistory from '../pages/IdeaHistory';
 import Login from '../pages/Login';

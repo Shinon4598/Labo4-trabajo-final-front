@@ -20,7 +20,9 @@
     --bg: #E8EDF5;
     --text: #0D141C;
 }
-
+.btn-clasic.no-expand{
+    width: auto;
+}
 .btn-clasic::before {
     content: "";
     position: absolute;
