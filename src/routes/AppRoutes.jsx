@@ -6,24 +6,29 @@ import Home from '../views/Home';
 import IdeaGeneratorForm from '../components/IdeaGeneratorForm';
 import IdeaHistory from '../components/IdeaHistory';
 import Login from '../components/Login';
+import Register from '../components/Register';
 
 const AppRoutes = () => {
-    const { currentUser } = useAuth();
+  const { currentUser } = useAuth();
 
-    return (
-        <Routes>
-            <Route path="/" element={currentUser ? <Home /> : <Navigate to="/login" />} />
-            <Route path="/login" element={<Login />} />
-            <Route 
-                path="/idea-generator" 
-                element={currentUser ? <IdeaGeneratorForm /> : <Navigate to="/login" />} 
-            />
-            <Route 
-                path="/history" 
-                element={currentUser ? <IdeaHistory /> : <Navigate to="/login" />} 
-            />
-        </Routes>
-    );
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={currentUser ? <Home /> : <Navigate to="/login" />}
+      />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="/idea-generator"
+        element={currentUser ? <IdeaGeneratorForm /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/history"
+        element={currentUser ? <IdeaHistory /> : <Navigate to="/login" />}
+      />
+    </Routes>
+  );
 };
 
 export default AppRoutes;
