@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext'; // Importa el hook
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
-import Navbar from '../../components/NavBar'; 
-import Input from '../../components/Inputs/Input'; 
+import Navbar from '../../components/Navbar'; 
+import Input from '../../components/Input'; 
 import './Login.css';
 import Button from '../../components/Button';
 
@@ -50,9 +50,10 @@ const Login = () => {
                 {error && <p>{error}</p>}
                 <div className="text-center">
                     <Button type="submit">Iniciar Sesión</Button>
+                    <a href="/register">No tienes un usuario?</a>
+                    <Button type="link" to='/register' className="secondary">Registrate</Button>
                 </div>
-                <a href="/register">No tienes un usuario?</a>
-                <Button type="button" className="secondary">Registrate</Button>
+                
 
             </form>
 

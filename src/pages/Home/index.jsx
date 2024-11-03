@@ -1,7 +1,7 @@
 // src/views/Home.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from '../../components/NavBar';
+import NavBar from '../../components/Navbar';
 import './Home.css';
 import Button from '../../components/Button';
 

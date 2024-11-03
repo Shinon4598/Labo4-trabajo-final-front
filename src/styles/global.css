@@ -14,8 +14,7 @@ body{
     font-family: "Work Sans", sans-serif;
     background-color: #F7FAFC;
 }
-a{
-    text-decoration: none;
-    color: #0D141C;
-    font-weight: 500;
+
+*, *::after, *::before{
+    box-sizing: border-box;
 }

@@ -6,6 +6,7 @@ import Home from '../pages/Home';
 import IdeaGeneratorForm from '../pages/IdeaGeneratorForm';
 import IdeaHistory from '../pages/IdeaHistory';
 import Login from '../pages/Login';
+import Register from '../pages/Register';
 
 const AppRoutes = () => {
     const { currentUser } = useAuth();
@@ -14,6 +15,7 @@ const AppRoutes = () => {
         <Routes>
             <Route path="/" element={currentUser ? <Home /> : <Navigate to="/login" />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register/>} />
             <Route 
                 path="/idea-generator" 
                 element={currentUser ? <IdeaGeneratorForm /> : <Navigate to="/login" />} 
