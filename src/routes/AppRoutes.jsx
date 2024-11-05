@@ -9,8 +9,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 
 const AppRoutes = () => {
-    const { currentUser } = useAuth();
-
+  const { currentUser } = useAuth();
     return (
         <Routes>
             <Route path="/" element={currentUser? <Home />: <Navigate to="/login"/>} />
