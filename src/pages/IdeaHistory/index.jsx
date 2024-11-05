@@ -1,5 +1,7 @@
 // src/components/IdeaHistory.jsx
 import React from 'react';
+import Card from '../../components/card';
+import './IdeaHistory.css';
 
 const IdeaHistory = () => {
     const mockHistory = [
@@ -8,16 +10,15 @@ const IdeaHistory = () => {
     ];
 
     return (
-        <div>
+        <>
             <h2>Idea History</h2>
-            <ul>
+            <ul className='card-container'>
                 {mockHistory.map((history) => (
-                    <li key={history.id}>
-                        {history.idea} - {history.date}
-                    </li>
+                    <Card key={history.id} titulo={history.idea} fecha={history.date}/>
                 ))}
             </ul>
-        </div>
+            
+        </>
     );
 };
 

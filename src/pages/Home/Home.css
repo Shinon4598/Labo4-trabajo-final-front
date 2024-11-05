@@ -1,0 +1,26 @@
+.banner{
+    height: 50vh;
+    width: 100%;
+    background-image: url('/src/assets/banner.png');
+    background-position: center;
+    background-size: cover;
+    border-radius: 20px;
+    position: relative;
+}
+.text-banner{
+    color: white;
+    position: absolute;
+    bottom: 10%;
+    right:1%;
+    text-align: center;
+    font-family: sans-serif;
+    text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+}
+.text-banner h1{
+    font-size: 7vmin;
+    font-weight: 700;
+}
+.text-banner p{
+    font-size: 4vmin;
+    font-weight: 500;
+}
