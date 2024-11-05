@@ -1,14 +1,13 @@
 // src/views/Home.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
 import NavBar from '../../components/Navbar';
 import './Home.css';
 import Button from '../../components/Button';
+import IdeaHistory from '../IdeaHistory';
 
 const Home = () => {
     return (
         <>
-        
             <NavBar>
                 <a href="/">Inicio</a>
                 <a href="/">Guardado</a>
@@ -19,14 +18,10 @@ const Home = () => {
                     <div className="text-banner">
                         <h1>Generador de ideas</h1>
                         <p>Crear ideas nuevas e innovadoras utilizando el poder de la IA</p>
-                        <Button type="button" className="no-expand">Generar Idea</Button>
+                        <Button type="link" to='/idea-generator' className="no-expand">Generar Idea</Button>
                     </div>
                 </div>
-            <nav>
-                <Link to="/idea-generator">Generate New Idea</Link> | 
-                <Link to="/ideas">View Ideas</Link> | 
-                <Link to="/history">Idea History</Link>
-            </nav>
+                <IdeaHistory />
             </main>
             
         </>

@@ -6,7 +6,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 const Register = () => {
-    const [user, setUser] = useState({ email: '', password: '' });
+    const [user, setUser] = useState({ email: '', password: '', confirmPassword: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -17,8 +17,13 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (user.password !== user.confirmPassword) {
+            setError('Las contraseñas no coinciden');
+            return;
+        }
         try {
-            await axios.post('http://localhost:3001/api/auth/register', user);
+            const {email, password} = user;
+            await axios.post('http://localhost:3001/api/auth/register', {email, password});
             navigate('/login'); // Redirige al login después de registrarse
         } catch (error) {
             console.error('Error al registrarse:', error);
@@ -34,6 +39,7 @@ const Register = () => {
                     <Input 
                         label = "email" 
                         type="email" 
+                        name='email'
                         value={user.email} 
                         onChange={handleChange} 
                         placeholder="email"
@@ -42,9 +48,19 @@ const Register = () => {
                     <Input
                         label="password"
                         type="password"
+                        name='password'
                         value={user.password}
                         onChange={handleChange}
                         placeholder="Contraseña"
+                        required={true}
+                    />
+                    <Input
+                        label="Confirmar contraseña"
+                        type="password"
+                        value={user.confirmPassword}
+                        name='confirmPassword'
+                        onChange={handleChange}
+                        placeholder="Confirmar Contraseña"
                         required={true}
                     />
                     {error && <p>{error}</p>}

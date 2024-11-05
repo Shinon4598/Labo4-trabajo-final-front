@@ -1,9 +1,8 @@
 .navbar { 
     display: flex;
-    padding: 1rem; display: flex; 
+    padding: 1rem; 
     align-items: center;
     justify-content: space-between; 
-    align-items: center; 
     color: #ffffff; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -12,7 +11,8 @@
     width: 100%; 
     padding: 0 2rem; 
     display: flex;
-    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .navbar-brand { 
@@ -29,4 +29,14 @@
     display: flex;
     align-items: center;
     gap: 2rem;
+}
+@media screen and (max-width: 768px) { 
+    .container-fluid { 
+        display: block;
+    }
+    .navbar-children{ 
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
 }

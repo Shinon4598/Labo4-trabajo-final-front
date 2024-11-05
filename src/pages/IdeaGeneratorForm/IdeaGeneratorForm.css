@@ -1,0 +1,10 @@
+.checkbox-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; 
+}
+
+fieldset{
+    border: 1px solid #CFDEE8;
+    margin: 20px 0 0 0;
+}
