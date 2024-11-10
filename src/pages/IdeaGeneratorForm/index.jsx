@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Input from '../../components/Input';
 import NavBar from '../../components/Navbar';
-import RadioButton from '../../components/RadioButton';
-import CheckBox from '../../components/CheckBox';
-import './IdeaGeneratorForm.css';
 import Button from '../../components/Button';
+import './IdeaGeneratorForm.css';
 
 const IdeaGeneratorForm = () => {
     const [idea, setIdea] = useState({
-        ideaName: '',
+        nameIdea: '', 
         description: '',
         technologies: [],
         designPatterns: [],
         knowledgeLevel: '',
         purpose: '',
+        theme: '', 
+        userId: ''
     });
 
     const technologiesList = [
@@ -52,39 +52,50 @@ const IdeaGeneratorForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        
-        // Recupera el objeto 'user' desde el localStorage y lo convierte a un objeto JSON
-        const user = JSON.parse(localStorage.getItem('user'));
-        
-        console.log(user);
 
-        // Verifica que 'user' y 'user.token' existan antes de continuar
-        if (!user || !user.token) {
-            console.error('Token no encontrado');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (!user || !user.token || !user.userId) {
+            console.error('Token o userId no encontrados');
+            alert('Por favor, inicie sesión.');
             return;
         }
-    
-        console.log('Token:', user.token); // Verifica el token
-    
+
+        if (!idea.theme || !idea.nameIdea || !idea.description || !idea.purpose || !idea.knowledgeLevel) {
+            alert('Por favor, complete todos los campos obligatorios.');
+            return;
+        }
+
+        // Convertir el array de tecnologías en una cadena con al menos 3 caracteres (separadas por comas)
+        const technologiesString = idea.technologies.join(', ');
+
+        const ideaWithUserId = { 
+            ...idea, 
+            technologies: technologiesString, // Ahora enviamos una cadena de tecnologías
+            preferredDesignPatterns: idea.designPatterns.join(', '), // También convertimos los patrones de diseño a una cadena
+            userId: user.userId 
+        };
+
         try {
             const response = await axios.post(
                 'http://localhost:3001/api/input-parameters/',
-                idea, // Envía la idea al backend
+                ideaWithUserId,
                 {
                     headers: {
-                        'Authorization': `Bearer ${user.token}`, // Añade el token en los encabezados
-                    },
+                        'Authorization': `Bearer ${user.token}`,
+                        'Content-Type': 'application/json'
+                    }
                 }
             );
-            
-            console.log(response.data); // Maneja la respuesta de la API
-    
+
+            if (response.data.message === 'Idea saved successfully!') {
+                alert(`Idea generada con éxito: ${response.data.nameIdea}`);
+            }
         } catch (error) {
-            console.error('Error al enviar la idea:', error);
+            console.error('Error al generar la idea:', error);
+            alert('Ocurrió un error al generar la idea.');
         }
     };
-    
 
     return (
         <>
@@ -98,87 +109,95 @@ const IdeaGeneratorForm = () => {
                         <Input 
                             label="Temática" 
                             type="text" 
-                            name="ideaName"
-                            value={idea.ideaName} 
+                            name="theme" 
+                            value={idea.theme} 
                             onChange={handleChange} 
-                            required={true} 
+                            required 
+                        />
+                        <Input 
+                            label="Nombre de la idea" 
+                            type="text" 
+                            name="nameIdea" 
+                            value={idea.nameIdea} 
+                            onChange={handleChange} 
+                            required 
                         />
                         <Input 
                             label="Descripción" 
                             type="text" 
-                            name="description"
+                            name="description" 
                             value={idea.description} 
                             onChange={handleChange} 
-                            required={true} 
+                            required 
                         />
                         <Input 
                             label="Propósito" 
                             type="text" 
-                            name="purpose"
+                            name="purpose" 
                             value={idea.purpose} 
                             onChange={handleChange} 
-                            required={true} 
+                            required 
                         />
                     </fieldset>
-                    
+
                     <fieldset>
                         <legend>Nivel de experiencia</legend>
-                        <RadioButton 
-                            label="Principiante" 
-                            name="knowledgeLevel" 
-                            value="Principiante" 
-                            checked={idea.knowledgeLevel === 'Principiante'} 
-                            onChange={handleChange}
-                        /> 
-                        <RadioButton 
-                            label="Intermedio" 
-                            name="knowledgeLevel" 
-                            value="Intermedio" 
-                            checked={idea.knowledgeLevel === 'Intermedio'} 
-                            onChange={handleChange}
-                        /> 
-                        <RadioButton 
-                            label="Avanzado" 
-                            name="knowledgeLevel" 
-                            value="Avanzado" 
-                            checked={idea.knowledgeLevel === 'Avanzado'} 
-                            onChange={handleChange}
-                        /> 
+                        <div>
+                            {['Principiante', 'Intermedio', 'Avanzado'].map(level => (
+                                <div key={level}>
+                                    <input
+                                        type="radio"
+                                        id={level}
+                                        name="knowledgeLevel"
+                                        value={level}
+                                        checked={idea.knowledgeLevel === level}
+                                        onChange={handleChange}
+                                    />
+                                    <label htmlFor={level}>{level}</label>
+                                </div>
+                            ))}
+                        </div>
                     </fieldset>
-                    
+
                     <fieldset>
-                        <legend>Tecnologías (Selecciona múltiples):</legend>
-                        <div className="checkbox-grid">
+                        <legend>Tecnologías</legend>
+                        <div>
                             {technologiesList.map(tech => (
-                                <CheckBox 
-                                    key={tech}
-                                    label={tech}
-                                    checked={idea.technologies.includes(tech)} 
-                                    onChange={handleChange} 
-                                    name="technologies" 
-                                    value={tech}
-                                />
+                                <div key={tech}>
+                                    <input
+                                        type="checkbox"
+                                        id={tech}
+                                        name="technologies"
+                                        value={tech}
+                                        checked={idea.technologies.includes(tech)}
+                                        onChange={handleChange}
+                                    />
+                                    <label htmlFor={tech}>{tech}</label>
+                                </div>
                             ))}
                         </div>
                     </fieldset>
-                    
+
                     <fieldset>
-                        <legend>Patrones de Diseño (Selecciona múltiples):</legend>
-                        <div className="checkbox-grid">
+                        <legend>Patrones de Diseño</legend>
+                        <div>
                             {designPatternsList.map(pattern => (
-                                <CheckBox 
-                                    key={pattern}
-                                    label={pattern}
-                                    checked={idea.designPatterns.includes(pattern)}  
-                                    onChange={handleChange} 
-                                    name="designPatterns" 
-                                    value={pattern}
-                                />
+                                <div key={pattern}>
+                                    <input
+                                        type="checkbox"
+                                        id={pattern}
+                                        name="designPatterns"
+                                        value={pattern}
+                                        checked={idea.designPatterns.includes(pattern)}
+                                        onChange={handleChange}
+                                    />
+                                    <label htmlFor={pattern}>{pattern}</label>
+                                </div>
                             ))}
                         </div>
                     </fieldset>
-                    
-                    <Button type='submit'>Generar Idea</Button>
+
+                    <Button type="submit" label="Generar Idea" />
                 </form>
             </main>
         </>
