@@ -4,7 +4,7 @@ export default function RadioButton({ label, name, value, checked, onChange }) {
     const inputId = `${label}_${value}`;
     return (
         <div className="radio-input">
-            <label class="label" htmlFor={inputId}>
+            <label className="label" htmlFor={inputId}>
                 <input
                 type="radio"
                 id={inputId}
@@ -13,7 +13,7 @@ export default function RadioButton({ label, name, value, checked, onChange }) {
                 value={value}
                 onChange={onChange}
                 />
-                <p class="text">{label}</p>
+                <p className="text">{label}</p>
             </label>
         </div>
     );

@@ -51,15 +51,9 @@ const Login = () => {
                 <div className="text-center">
                     <Button type="submit">Iniciar Sesión</Button>
                     <a href="/register">No tienes un usuario?</a>
-                    <Button type="link" to='/register' className="secondary">Registrate</Button>
                 </div>
-                
-
             </form>
-
-
         </main>
-        
         </>
     );
 };

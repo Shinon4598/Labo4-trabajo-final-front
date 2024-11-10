@@ -14,8 +14,11 @@ export const AuthProvider = ({ children }) => {
                 password,
             });
     
+            console.log('Respuesta del servidor:', response.data);
+
             if (response.data && response.data.user) {
                 const user = response.data.user; // Asegúrate de que esto es un objeto válido
+                user.token = response.data.token; // Asegúrate de que esto es un string válido
                 setCurrentUser(user);
                 localStorage.setItem('user', JSON.stringify(user)); // Guarda como JSON
             } else {
