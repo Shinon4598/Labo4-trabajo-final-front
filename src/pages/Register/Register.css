@@ -1,5 +1,5 @@
-/* Contenedor principal del login */
-.login-container {
+/* Contenedor principal del registro */
+.register-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,8 +8,8 @@
     padding: 2rem;
 }
 
-/* Tarjeta de Login */
-.login-card {
+/* Tarjeta de Registro */
+.register-card {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
@@ -20,25 +20,25 @@
     animation: fadeIn 0.5s ease-in-out;
 }
 
-.login-title {
+.register-title {
     font-size: 1.8rem;
     font-weight: bold;
     color: #4A789C;
     margin-bottom: 0.5rem;
 }
 
-.login-subtitle {
+.register-subtitle {
     font-size: 1rem;
     color: #6c757d;
     margin-bottom: 2rem;
 }
 
-.login-form {
+.register-form {
     display: flex;
     flex-direction: column;
 }
 
-.login-error {
+.register-error {
     color: red;
     font-size: 0.9rem;
     margin-top: 0.5rem;
@@ -97,13 +97,13 @@ button::after {
     transition: transform 0.4s cubic-bezier(0.3, 1, 0.8, 1);
 } */
 
-/* Animación cuando se pasa el cursor
-button:hover::before {
+/* Animación cuando se pasa el cursor */
+/* button:hover::before {
     transform: translate3d(100%, 0, 0);
 } */
 
-/* Enlace de registro */
-.login-register-link {
+/* Enlace de inicio de sesión */
+.register-login-link {
     display: inline-block;
     color: #4A789C;
     font-size: 0.9rem;
@@ -112,7 +112,7 @@ button:hover::before {
     transition: color 0.3s ease;
 }
 
-.login-register-link:hover {
+.register-login-link:hover {
     color: #365e73;
 }
 
@@ -123,7 +123,7 @@ button:hover::before {
 }
 
 @media screen and (max-width: 768px) {
-    .login-card {
+    .register-card {
         padding: 1.5rem;
     }
 }

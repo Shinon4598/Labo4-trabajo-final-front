@@ -1,31 +1,37 @@
-// src/views/Home.jsx
-import React from 'react';
-import NavBar from '../../components/Navbar';
-import './Home.css';
-import Button from '../../components/Button';
-import IdeaHistory from '../IdeaHistory';
+import NavBar from "../../components/Navbar";
+import "./Home.css";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-    return (
-        <>
-            <NavBar>
-                <a href="/">Inicio</a>
-                <a href="/">Guardado</a>
-                <a href="/">Crear</a>
-            </NavBar>
-            <main className='container'>
-                <div className="banner">
-                    <div className="text-banner">
-                        <h1>Generador de ideas</h1>
-                        <p>Crear ideas nuevas e innovadoras utilizando el poder de la IA</p>
-                        <Button type="link" to='/idea-generator' className="no-expand">Generar Idea</Button>
-                    </div>
-                </div>
-                <IdeaHistory />
-            </main>
-            
-        </>
-    );
+  const navigate = useNavigate();
+
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
+  return (
+    <div className="prueba">
+      <NavBar>
+        <a href="/history">Guardado</a>
+        <a href="/profile">Perfil</a>
+      </NavBar>
+      <main className="container">
+        <div className="element"></div>
+
+        <div className="banner">
+          <div className="text-banner">
+            <p>Crear ideas nuevas e innovadoras utilizando el poder de la IA</p>
+            <button
+              className="no-expand"
+              onClick={() => handleNavigate("/idea-generator")} // Cambié aquí para pasar la función correctamente
+            >
+              Generar Idea
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
 };
 
 export default Home;
