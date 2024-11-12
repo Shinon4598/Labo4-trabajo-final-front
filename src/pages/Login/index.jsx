@@ -1,59 +1,59 @@
-// src/components/Login.jsx
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext'; // Importa el hook
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar'; 
 import Input from '../../components/Input'; 
-import './Login.css';
 import Button from '../../components/Button';
+import './Login.css';
 
 const Login = () => {
-    const { login } = useAuth(); // Usa el hook para obtener la función de login
+    const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate(); // Inicializa el hook useNavigate 
-
+    const navigate = useNavigate();
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // Reinicia el error al intentar iniciar sesión
+        setError('');
         try {
             await login(email, password);
-            navigate('/'); 
+            navigate('/');
         } catch (err) {
-            setError(err.response?.data?.message || 'Error de inicio de sesión'); // Mensaje más específico
+            setError(err.response?.data?.message || 'Error de inicio de sesión');
         }
     };
     
     return (
         <>
-        <Navbar/>
-        <main className='login-container'>
-            <h3 className='text-center'>Iniciar sesión</h3>
-            <form onSubmit={handleSubmit}>
-                <Input 
-                    label = "email" 
-                    type="email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    placeholder="email"
-                    required={true}
-                /> 
-                <Input
-                    label="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Contraseña"
-                    required={true}
-                />
-                {error && <p>{error}</p>}
-                <div className="text-center">
-                    <Button type="submit">Iniciar Sesión</Button>
-                    <a href="/register">No tienes un usuario?</a>
+            <Navbar />
+            <main className="login-container">
+                <div className="login-card">
+                    <h2 className="login-title">Bienvenido de Nuevo</h2>
+                    <p className="login-subtitle">Por favor, ingresa tus datos para continuar</p>
+                    <form onSubmit={handleSubmit} className="login-form">
+                        <Input 
+                            label="Correo electrónico: " 
+                            type="email" 
+                            value={email} 
+                            onChange={(e) => setEmail(e.target.value)} 
+                            placeholder="correo@ejemplo.com"
+                            required={true}
+                        /> 
+                        <Input
+                            label="Contraseña: "
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="••••••••"
+                            required={true}
+                        />
+                        {error && <p className="login-error">{error}</p>}
+                        <Button type="submit" className="login-button">Iniciar Sesión</Button>
+                    </form>
+                    <a href="/register" className="login-register-link">¿No tienes una cuenta? Regístrate aquí</a>
                 </div>
-            </form>
-        </main>
+            </main>
         </>
     );
 };
