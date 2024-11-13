@@ -128,28 +128,6 @@
     transform: scale(1.1);
 }
 
-/* Navbar */
-nav {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 25px;
-    font-size: 1.1rem;
-    color: #333;
-}
-
-nav a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-/* Efecto hover para los enlaces del navbar */
-nav a:hover {
-    color: #4CAF50;
-}
 
 /* Media Queries para responsividad */
 @media (max-width: 768px) {
