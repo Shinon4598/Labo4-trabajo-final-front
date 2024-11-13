@@ -1,4 +1,3 @@
-// src/components/Login.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,7 +9,7 @@ import ErrorMessage from '../../components/Error-message';
 
 
 const Login = () => {
-    const { login } = useAuth(); // Usa el hook para obtener la función de login
+    const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -23,7 +22,7 @@ const Login = () => {
         setError('');
         try {
             await login(email, password);
-            navigate('/'); 
+            navigate('/');
         } catch (err) {
             setError(err.response?.data?.message || 'Error de inicio de sesión'); // Mensaje más específico
         }

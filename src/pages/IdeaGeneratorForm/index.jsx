@@ -10,61 +10,99 @@ import SelectOne from '../../components/SelectOne';
 
 const IdeaGeneratorForm = () => {
     const [idea, setIdea] = useState({
-        ideaName: '',
-        description: '',
+        nameIdea: '', 
+        description: '', 
         technologies: [],
         designPatterns: [],
         knowledgeLevel: '',
         purpose: '',
+        theme: '', 
+        userId: ''
     });
 
+    const [errors, setErrors] = useState({});
+    
     const technologiesList = [
-        "React", "Node.js", "Express", "MongoDB", "MySQL",
-        "Python", "Django", "Flask", "Java", "Spring",
-        "Ruby", "Rails", "PHP", "Laravel", "C#",
-        "ASP.NET", "HTML/CSS", "TypeScript", "GraphQL", "Vue.js", "Angular"
+        { value: 'React', label: 'React' },
+        { value: 'Node.js', label: 'Node.js' },
+        { value: 'Express', label: 'Express' },
+        { value: 'MongoDB', label: 'MongoDB' },
+        { value: 'MySQL', label: 'MySQL' },
+        { value: 'Python', label: 'Python' },
     ];
 
     const designPatternsList = [
-        "Singleton", "Observer", "Factory", "Strategy",
-        "Decorator", "Facade", "Adapter", "Proxy",
-        "Command", "Iterator", "Composite", "Builder", "Prototype"
+        { value: 'Singleton', label: 'Singleton' },
+        { value: 'Observer', label: 'Observer' },
+        { value: 'Factory', label: 'Factory' },
+        { value: 'Strategy', label: 'Strategy' },
+        { value: 'Decorator', label: 'Decorator' },
     ];
 
-    const handleChange = (e) => {
-        const { name, value, checked } = e.target;
-        if (name === 'technologies' || name === 'designPatterns') {
-            console.log(idea.technologies);
-            setIdea(prevState => {
-                const updatedValues = checked
-                    ? [...prevState[name], value]
-                    : prevState[name].filter(item => item !== value);
-                    return {
-                        ...prevState,
-                        [name]: updatedValues,
-                    };
-            });
-            
-        } else {
-            setIdea({
-                ...idea,
-                [name]: value,
-            });
+    const handleChange = (name, value) => {
+        setIdea(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [name]: '' 
+        }));
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        
+        if (idea.theme.length < 3 || idea.theme.length > 30) {
+            newErrors.theme = 'La temática debe tener entre 3 y 30 caracteres.';
         }
+        if (idea.description.length < 10 || idea.description.length > 250) {
+            newErrors.description = 'La descripción debe tener entre 10 y 250 caracteres.';
+        }
+        if (idea.purpose.length < 3 || idea.purpose.length > 30) {
+            newErrors.purpose = 'El propósito debe tener entre 3 y 30 caracteres.';
+        }
+        if (!idea.knowledgeLevel) {
+            newErrors.knowledgeLevel = 'Por favor, seleccione un nivel de experiencia.';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (!validateForm()) {
+            return;
+        }
+
+        const technologiesString = idea.technologies.join(', ');
+        const ideaWithUserId = { 
+            ...idea, 
+            technologies: technologiesString,
+            preferredDesignPatterns: idea.designPatterns.join(', '),
+            userId: user.userId 
+        };
+
         try {
-            const token = localStorage.getItem('token'); // Obtiene el token del localStorage
-            const response = await axios.post('http://localhost:3001/api/input-parameters/', idea, {
-                headers: {
-                    'Authorization': `Bearer ${token}`, // Añade el token en los encabezados
-                },
-            });
-            console.log(response.data); // Maneja la respuesta de la API según lo necesites
+            const response = await axios.post(
+                'http://localhost:3001/api/input-parameters/',
+                ideaWithUserId,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${user.token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            if (response.data.message === 'Idea saved successfully!') {
+                alert(`Idea generada con éxito:`);
+            }
         } catch (error) {
-            console.error('Error al enviar la idea:', error);
+            console.error('Error al generar la idea:', error);
+            alert('Ocurrió un error al generar la idea.');
         }
     };
 
@@ -161,9 +199,9 @@ const IdeaGeneratorForm = () => {
                     <Button type="submit" title="Enviar" >Enviar</Button>
                 </form>
             </main>
-            
         </>
     );
 };
 
 export default IdeaGeneratorForm;
+

@@ -4,6 +4,12 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+/* Contenedor principal */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     position: relative;
     z-index: 1;
     margin: 0 20px;
@@ -25,7 +31,74 @@
 /* Formas circulares animadas en el fondo */
 .element::before, .element::after {
     content: '';
+    z-index: 1;
+    margin: 0 20px;
+    flex-direction: column;
+}
+/* Animación de fondo de gradiente */
+.element {
+    width: 70%;
+    height: 80%;
     position: absolute;
+    z-index: -1;
+    background: linear-gradient(45deg, #001F3F, #FF4136, #4CAF50, #FF5733);
+    background-size: 400% 400%;
+    animation: gradientPulse 12s ease infinite;
+    overflow: hidden;
+    border-radius: 25px;
+}
+
+/* Formas circulares animadas en el fondo */
+.element::before, .element::after {
+    content: '';
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    animation: pulseCircle 10s ease-in-out infinite;
+    z-index: -1;
+}
+
+.element::before {
+    top: 15%;
+    left: 10%;
+}
+
+.element::after {
+    bottom: 15%;
+    right: 10%;
+}
+
+/* Animación suave de gradiente */
+@keyframes gradientPulse {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Animación de movimiento circular */
+@keyframes pulseCircle {
+    0%, 100% {
+        transform: scale(1) translate(0);
+    }
+    50% {
+        transform: scale(1.3) translate(20px, 20px);
+    }
+}
+
+/* Banner cuadrado centrado */
+.banner {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
     width: 350px;
     height: 350px;
     border-radius: 50%;
