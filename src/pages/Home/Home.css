@@ -9,6 +9,7 @@
 }
 .text-banner{
     color: white;
+<<<<<<< Updated upstream
     position: absolute;
     bottom: 10%;
     right:1%;
@@ -23,4 +24,51 @@
 .text-banner p{
     font-size: 4vmin;
     font-weight: 500;
+=======
+    padding: 14px 28px;
+    border-radius: 35px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Efecto hover para el botón */
+.no-expand:hover {
+    background-color: #45a049;
+    transform: scale(1.1);
+}
+
+
+
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+    .banner {
+        width: 100%;
+        height: auto;
+        padding: 30px;
+    }
+
+    .text-banner p {
+        font-size: 1.4rem;
+    }
+
+    .no-expand {
+        font-size: 1.1rem;
+        padding: 12px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .text-banner p {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .no-expand {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+>>>>>>> Stashed changes
 }
