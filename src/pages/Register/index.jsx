@@ -4,10 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Nav-bar';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-<<<<<<< Updated upstream
-=======
 import ErrorMessage from '../../components/Error-message';
->>>>>>> Stashed changes
 
 const Register = () => {
     const [user, setUser] = useState({ email: '', password: '', confirmPassword: '' });
@@ -35,47 +32,6 @@ const Register = () => {
     };
 
     return (
-<<<<<<< Updated upstream
-        <>
-            <Navbar/>
-            <main className='login-container'>
-                <h3 className='text-center'>Registro</h3>
-                <form onSubmit={handleSubmit}>
-                    <Input 
-                        label = "email" 
-                        type="email" 
-                        name='email'
-                        value={user.email} 
-                        onChange={handleChange} 
-                        placeholder="email"
-                        required={true}
-                    /> 
-                    <Input
-                        label="password"
-                        type="password"
-                        name='password'
-                        value={user.password}
-                        onChange={handleChange}
-                        placeholder="Contraseña"
-                        required={true}
-                    />
-                    <Input
-                        label="Confirmar contraseña"
-                        type="password"
-                        value={user.confirmPassword}
-                        name='confirmPassword'
-                        onChange={handleChange}
-                        placeholder="Confirmar Contraseña"
-                        required={true}
-                    />
-                    {error && <p>{error}</p>}
-                    <div className="text-center">
-                        <Button type="submit">Registrate</Button>
-                        <a href="/login">Ya tienes un usuario?</a>
-                        <Button type="link" to='/login' className="secondary">Inicia Sesión</Button>
-                    </div>
-                </form>
-=======
         <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-screen w-screen">
             <Navbar />
             <main className="flex justify-center mx-auto my-14 shadow-none">
@@ -118,7 +74,6 @@ const Register = () => {
                     </form>
                     <Link to="/login" className="text-sm text-center mt-[1.6rem]">¿Ya tienes una cuenta? <span className="text-sm text-[#7747ff]">Inicia sesión aquí</span> </Link>
                 </div>
->>>>>>> Stashed changes
             </main>
         </div>
     );

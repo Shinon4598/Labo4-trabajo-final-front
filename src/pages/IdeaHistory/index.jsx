@@ -1,16 +1,9 @@
-<<<<<<< Updated upstream
-// src/components/IdeaHistory.jsx
-import React from 'react';
-import Card from '../../components/card';
-import './IdeaHistory.css';
-=======
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 import Loader from '../../components/Loader';
 import Card from '../../components/Card';
->>>>>>> Stashed changes
 
 const IdeaHistory = () => {
     const mockHistory = [
@@ -18,20 +11,6 @@ const IdeaHistory = () => {
         { id: 2, idea: 'Blockchain Voting', date: '2024-10-05' }
     ];
 
-<<<<<<< Updated upstream
-    return (
-        <>
-            <h2>Idea History</h2>
-            <ul className='card-container'>
-                {mockHistory.map((history) => (
-                    <Card key={history.id} titulo={history.idea} fecha={history.date}/>
-                ))}
-            </ul>
-            
-        </>
-    );
-};
-=======
   const { currentUser } = useAuth();
 
   const navigate = useNavigate();
@@ -223,6 +202,5 @@ const IdeaHistory = () => {
     </div>
   );
 };  
->>>>>>> Stashed changes
 
 export default IdeaHistory;

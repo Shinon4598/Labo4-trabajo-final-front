@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Input from '../../components/Input';
-<<<<<<< Updated upstream
-import NavBar from '../../components/Navbar';
-import RadioButton from '../../components/RadioButton';
-import CheckBox from '../../components/CheckBox';
-import './IdeaGeneratorForm.css'
-import Button from '../../components/Button';
-=======
 import NavBar from '../../components/Nav-bar';
 import Button from '../../components/Button';
 import Select from 'react-select';
 import ErrorMessage from '../../components/Error-message';
 import SelectOne from '../../components/SelectOne';
 
->>>>>>> Stashed changes
 
 const IdeaGeneratorForm = () => {
     const [idea, setIdea] = useState({
@@ -78,93 +70,6 @@ const IdeaGeneratorForm = () => {
 
     return (
         <>
-<<<<<<< Updated upstream
-            <NavBar/>
-            <main className='container left'>
-            <h1>Generar una idea de proyecto</h1>
-            <sub>Seleccione las funciones y tecnologías que desea incluir y haga clic en «Generar idea».</sub>
-            <form onSubmit={handleSubmit}>
-            <fieldset>
-                    <legend>Detalles de la idea</legend><Input 
-                    label="Temática" 
-                    type="text" 
-                    name="ideaName"
-                    value={idea.ideaName} 
-                    onChange={handleChange} 
-                    required={true}>
-                </Input>
-                <Input 
-                    label="Descripción" 
-                    type="text" 
-                    name="description"
-                    value={idea.description} 
-                    onChange={handleChange} 
-                    required={true}>
-                </Input>
-                </fieldset>
-                <fieldset>
-                    <legend>Nivel de experiencia</legend>
-                    <RadioButton 
-                        label="Principiante" 
-                        name="knowledgeLevel" 
-                        value="Principiante" 
-                        checked={idea.knowledgeLevel === 'Principiante'} 
-                        onChange={handleChange}
-                    /> 
-                    <RadioButton 
-                        label="Intermedio" 
-                        name="knowledgeLevel" 
-                        value="Intermedio" 
-                        checked={idea.knowledgeLevel === 'Intermedio'} 
-                        onChange={handleChange}
-                    /> 
-                    <RadioButton 
-                        label="Avanzado" 
-                        name="knowledgeLevel" 
-                        value="Avanzado" 
-                        checked={idea.knowledgeLevel === 'Avanzado'} 
-                        onChange={handleChange}
-                    /> 
-                </fieldset>
-                
-                
-                <fieldset>
-                    <legend>Tecnologías (Selecciona múltiples):</legend>
-                    <div className="checkbox-grid">
-                        {technologiesList.map(tech => (
-                            <CheckBox 
-                                key={tech}
-                                label={tech}
-                                checked={idea.technologies.includes(tech)} 
-                                onChange={handleChange} 
-                                name="technologies" 
-                                value={tech}
-                            >
-                            </CheckBox>                                
-
-                        ))}
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Patrones de Diseño (Selecciona múltiples):</legend>
-                    <div className="checkbox-grid">
-                        {designPatternsList.map(pattern => (
-                            <CheckBox 
-                                key={pattern}
-                                label={pattern}
-                                checked={idea.technologies.includes(pattern)} 
-                                onChange={handleChange} 
-                                name="technologies" 
-                                value={pattern}
-                            >
-                            </CheckBox>      
-                            
-                        ))}
-                    </div>
-                </fieldset>
-                <Button type='submit'>Generar Idea</Button>
-            </form>
-=======
             <NavBar />
             <main className='container mx-auto my-14'>
                 <h1 className="text-2xl font-bold mb-2 text-indigo-950 text-center">Generar una idea de proyecto</h1>
@@ -255,7 +160,6 @@ const IdeaGeneratorForm = () => {
 
                     <Button type="submit" title="Enviar" >Enviar</Button>
                 </form>
->>>>>>> Stashed changes
             </main>
             
         </>

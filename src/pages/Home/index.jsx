@@ -1,15 +1,6 @@
-<<<<<<< Updated upstream
-// src/views/Home.jsx
-import React from 'react';
-import NavBar from '../../components/Navbar';
-import './Home.css';
-import Button from '../../components/Button';
-import IdeaHistory from '../IdeaHistory';
-=======
 import NavBar from "../../components/Nav-bar";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
->>>>>>> Stashed changes
 
 const Home = () => {
     return (
