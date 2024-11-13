@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Input from '../../components/Input';
-import NavBar from '../../components/Navbar';
+import NavBar from '../../components/Nav-bar';
 import Button from '../../components/Button';
 import Select from 'react-select';
+import ErrorMessage from '../../components/Error-message';
+import SelectOne from '../../components/SelectOne';
 
-import './IdeaGeneratorForm.css';
 
 const IdeaGeneratorForm = () => {
     const [idea, setIdea] = useState({
@@ -108,11 +109,11 @@ const IdeaGeneratorForm = () => {
     return (
         <>
             <NavBar />
-            <main className='container'>
-                <h1 className="form-title">Generar una idea de proyecto</h1>
-                <form onSubmit={handleSubmit} className="idea-form">
+            <main className='container mx-auto my-14'>
+                <h1 className="text-2xl font-bold mb-2 text-indigo-950 text-center">Generar una idea de proyecto</h1>
+                <form onSubmit={handleSubmit} className="w-full px-52">
                     <fieldset className="fieldset">
-                        <legend className="legend">Detalles de la idea</legend>
+                        <legend className="font-bold mb-4 text-indigo-950">Detalles de la idea</legend>
                         <div className="row">
                             <Input 
                                 label="Temática" 
@@ -135,21 +136,26 @@ const IdeaGeneratorForm = () => {
                             {errors.purpose && <p className="error-text">{errors.purpose}</p>}
                         </div>
 
-                        <label htmlFor="description">Descripción</label>
-                        <textarea 
-                            id="description"
-                            name="description"
-                            value={idea.description}
-                            onChange={(e) => handleChange('description', e.target.value)} 
-                            maxLength="250"
-                            className="textarea large-textarea"
-                            rows="6"
-                            placeholder="Describe tu idea en 250 caractereces o menos"></textarea>
-                        {errors.description && <p className="error-text">{errors.description}</p>}
+                        <div className="mb-4">
+                            <label htmlFor="description" className="block text-gray-600 cursor-text text-sm leading-[140%] font-normal mb-2">
+                                Descripción
+                            </label>
+                            <textarea 
+                                id="description"
+                                name="description"
+                                value={idea.description}
+                                onChange={(e) => handleChange('description', e.target.value)} 
+                                maxLength="250"
+                                rows="6"
+                                placeholder="Describe tu idea en 250 caracteres o menos"
+                                className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
+                            ></textarea>
+                            {errors.description && <ErrorMessage message={errors.description}/>}
+                        </div>
                     </fieldset>
 
                     <fieldset className="fieldset">
-                        <legend className="legend">Tecnologías y patrones de diseño</legend>
+                        <legend className="font-bold mb-4 text-indigo-950">Tecnologías y patrones de diseño</legend>
 
                         <label htmlFor="technologies">Tecnologías</label>
                         <Select
@@ -174,29 +180,23 @@ const IdeaGeneratorForm = () => {
                                 handleChange('designPatterns', selectedOptions.map(option => option.value))
                             }
                         />
-                    </fieldset>
-
-                    <fieldset className="fieldset">
-                        <legend className="legend">Nivel de conocimiento</legend>
-
-                        <label htmlFor="knowledgeLevel">Nivel de experiencia</label>
-                        <select 
-                            id="knowledgeLevel"
-                            name="knowledgeLevel"
+                        <SelectOne 
+                            label={'Nivel de Conocimiento'}
+                            name={'knowledgeLevel'}
                             value={idea.knowledgeLevel}
                             onChange={(e) => handleChange('knowledgeLevel', e.target.value)}
-                            required
-                            className="select"
-                        >
-                            <option value="" disabled>Seleccione una opción</option>
-                            <option value="beginner">Principiante</option>
-                            <option value="intermediate">Intermedio</option>
-                            <option value="advanced">Avanzado</option>
-                        </select>
-                        {errors.knowledgeLevel && <p className="error-text">{errors.knowledgeLevel}</p>}
+                            required={true}
+                            options={[
+                                { value: 'beginner', label: 'Principiante' },
+                                { value: 'intermediate', label: 'Intermedio' },
+                                { value: 'advanced', label: 'Avanzado' },
+                            ]}
+                        />
+                        {errors.knowledgeLevel && <ErrorMessage message={errors.knowledgeLevel}/>}
+                       
                     </fieldset>
 
-                    <Button type="submit" label="Generar Idea" className="submit-button" />
+                    <Button type="submit" title="Enviar" >Enviar</Button>
                 </form>
             </main>
         </>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Navbar from '../../components/Navbar';
+import { Link, useNavigate } from 'react-router-dom';
+import Navbar from '../../components/Nav-bar';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import './Register.css';
+import ErrorMessage from '../../components/Error-message';
 
 const Register = () => {
     const [user, setUser] = useState({ email: '', password: '', confirmPassword: '' });
@@ -48,13 +48,13 @@ const Register = () => {
     };
 
     return (
-        <>
+        <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-screen w-screen">
             <Navbar />
-            <main className="register-container">
-                <div className="register-card">
-                    <h2 className="register-title">Crea tu cuenta</h2>
-                    <p className="register-subtitle">Ingresa tus datos para registrarte</p>
-                    <form onSubmit={handleSubmit} className="register-form">
+            <main className="flex justify-center mx-auto my-14 shadow-none">
+                <div className="w-full sm:w-96 lg:w-1/3 flex flex-col p-4 rounded-md text-black bg-white shadow-lg">
+                    <h2 className="text-2xl font-bold mb-2 text-[#1e0e4b] text-center">Crea tu cuenta</h2>
+                    <p className="text-sm font-normal mb-4 text-center text-[#1e0e4b]">Ingresa tus datos para registrarte</p>
+                    <form onSubmit={handleSubmit}>
                         <Input 
                             label="Correo electrónico: " 
                             type="email" 
@@ -85,13 +85,13 @@ const Register = () => {
                             required={true}
                             autoComplete="off"
                         />
-                        {error && <p className="register-error">{error}</p>}
+                        {error && <ErrorMessage message={error}></ErrorMessage> }
                         <Button type="submit" className="register-button">Registrarme</Button>
                     </form>
-                    <a href="/login" className="register-login-link">¿Ya tienes una cuenta? Inicia sesión aquí</a>
+                    <Link to="/login" className="text-sm text-center mt-[1.6rem]">¿Ya tienes una cuenta? <span className="text-sm text-[#7747ff]">Inicia sesión aquí</span> </Link>
                 </div>
             </main>
-        </>
+        </div>
     );
 };
 

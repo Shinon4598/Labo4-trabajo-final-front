@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './IdeaHistory.css';
 import { useAuth } from "../../contexts/AuthContext";
+import Loader from '../../components/Loader';
+import Card from '../../components/Card';
 
 const IdeaHistory = () => {
   const [ideas, setIdeas] = useState([]);
@@ -138,13 +139,150 @@ const IdeaHistory = () => {
     navigate('/profile');
   };
 
+  const { currentUser } = useAuth();
+
+  const navigate = useNavigate();
+
+  const handleNavigateDetail = (ideaId) => {
+    navigate(`/idea-detail/${ideaId}`);
+  };
+
+  const handleFavorite = (idea) => {
+    if (idea.isLiked) {
+      handleDeleteFavorite(currentUser.userId, idea.ideaId, idea.isLiked);
+    }
+    else {
+      handleAddFavorite(currentUser.userId, idea.ideaId, idea.isLiked);
+    }
+  }
+  const handleAddFavorite = async (userId, ideaId, isLiked) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/api/favorites`,
+        {
+          userId,
+          ideaId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+        }
+      );
+
+      if (response.status === 201) {  // Revisamos si el estado es 201 (creado)
+        // Actualizar el estado de "Me gusta" para la idea correspondiente
+        setIdeas((prevIdeas) =>
+          prevIdeas.map((idea) =>
+            idea.ideaId === ideaId
+              ? { ...idea, isLiked: !isLiked }
+              : idea
+          )
+        );
+      } else {
+        alert('Hubo un error al procesar la solicitud de Me gusta.');
+      }
+    } catch (err) {
+      console.error('Error al actualizar el favorito:', err);
+      alert('Hubo un error al procesar tu solicitud. Por favor, inténtalo de nuevo.');
+    }
+  };
+
+  const handleDeleteFavorite = async (userId, ideaId, isLiked) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/api/favorites/${userId}/${ideaId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+        }
+      );
+
+      // Verificar si la respuesta fue exitosa
+      if (response.status === 200) {
+        // Actualizar el estado de "Me gusta" para la idea correspondiente
+        setIdeas((prevIdeas) =>
+          prevIdeas.map((idea) =>
+            idea.ideaId === ideaId
+              ? { ...idea, isLiked: !isLiked } // Cambiar el estado de "Me gusta"
+              : idea
+          )
+        );
+      } else {
+        alert('Hubo un error al eliminar el favorito.');
+      }
+    } catch (err) {
+      console.error('Error al eliminar el favorito:', err);
+      alert('Hubo un error al procesar tu solicitud. Por favor, inténtalo de nuevo.');
+    }
+  };
+
+  useEffect(() => {
+    const fetchIdeaHistory = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || !user.userId || !user.token) {
+          setError('Usuario no autenticado. Por favor, inicie sesión.');
+          setLoading(false);
+          return;
+        }
+
+        const headers = {
+          Authorization: `Bearer ${user.token}`,
+        };
+
+        const response = await axios.get(
+          `http://localhost:3001/api/idea-history/${user.userId}`,
+          { headers }
+        );
+
+        console.log('Datos recibidos de la API:', response.data);
+
+        if (Array.isArray(response.data)) {
+          setIdeas(response.data.map(idea => ({
+            ...idea,
+            isLiked: idea.isLiked || false,  // Agregamos la propiedad "isLiked"
+          })));
+        } else {
+          console.warn('La respuesta de la API no es un array');
+          setIdeas([]);
+        }
+      } catch (err) {
+        console.error('Error obteniendo el historial de ideas:', err);
+
+        if (err.response?.status === 401) {
+          setError('Error de autenticación. Por favor, inicie sesión.');
+        } else {
+          setError('Error obteniendo el historial de ideas.');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchIdeaHistory();
+  }, []);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    if (date.getTime()) {
+      return 'Fecha inválida';
+    }
+    return date.toLocaleDateString();
+  };
+
+  const handleRedirect = () => {
+    navigate('/profile');
+  };
+
   return (
     <div className="idea-history">
       <h2 className="idea-history__title">Historial de Ideas</h2>
       {error ? (
         <p className="idea-history__error-message">{error}</p>
       ) : loading ? (
-        <p className="idea-history__loading">Cargando...</p>
+        <Loader/>
       ) : (
         <div className="idea-history__cards">
           {ideas.length > 0 ? (
