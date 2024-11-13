@@ -2,9 +2,9 @@ import React from 'react';
 
 const ErrorMessage= ({message}) => {
   return (
-    <div class="peer-invalid:block my-2">
-    <div class="mt-2 flex items-center gap-1">
-      <div class="w-4 fill-rose-500">
+    <div className="peer-invalid:block my-2">
+    <div className="mt-2 flex items-center gap-1">
+      <div className="w-4 fill-rose-500">
         <svg
           viewBox="0 0 24 24"
           data-name="Layer 1"
@@ -16,7 +16,7 @@ const ErrorMessage= ({message}) => {
           ></path>
         </svg>
       </div>
-      <p class="Capitalize font-medium text-rose-500">{message}</p>
+      <p className="Capitalize font-medium text-rose-500">{message}</p>
     </div>
   </div>
   );
