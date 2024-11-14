@@ -1,9 +1,12 @@
 import NavBar from "../../components/Nav-bar";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+
 
 const Home = () => {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -13,7 +16,7 @@ const Home = () => {
     <div className="prueba">
       <NavBar>
         <a href="/history">Historial</a>
-        <a href="/favorites">Favoritos</a>
+        <a href={`/favorites/${currentUser.userId}`}>Favoritos</a>
         <a href="/profile">Perfil</a>
       </NavBar>
       <main className="container">

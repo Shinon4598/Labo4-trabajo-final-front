@@ -46,20 +46,10 @@ const AppRoutes = () => {
                 }
             />
             <Route
-                path="/favorites"
+                path="/favorites/:id"
                 element={
                     currentUser && currentUser.userId ? (
                         <IdeaFavorites />
-                    ) : (
-                        <Navigate to="/login" />
-                    )
-                }
-            />
-            <Route
-                path="/profile"
-                element={
-                    currentUser && currentUser.userId ? (
-                        <Profile />
                     ) : (
                         <Navigate to="/login" />
                     )
@@ -75,6 +65,17 @@ const AppRoutes = () => {
                     )
                 }
             />
+            <Route
+                path="/profile"
+                element={
+                    currentUser && currentUser.userId ? (
+                        <Profile />
+                    ) : (
+                        <Navigate to="/login" />
+                    )
+                }
+            />
+            
         </Routes>
     );
 };

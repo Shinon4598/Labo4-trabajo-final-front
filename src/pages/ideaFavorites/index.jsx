@@ -9,6 +9,7 @@ export default function IdeaFavorites() {
     const { currentUser } = useAuth();
     const [loading, setLoading] = useState(true);
 
+    
     useEffect(() => {
         const fetchIdeas = async () => {
             try {
@@ -18,6 +19,8 @@ export default function IdeaFavorites() {
                     }
                 });
                 setIdeas(response.data);
+        console.log('Datos recibidos de la API:', response.data);
+
             } catch (error) {
                 console.error('Error al cargar las ideas:', error);
             }
@@ -48,14 +51,10 @@ export default function IdeaFavorites() {
                     {ideas.map((idea) => (
                         <Card
                         key={idea.historyId}
-                        idea={idea.ideaDescription}
+                        idea={idea.description}
                         ideaId={idea.ideaId}
                         isLiked={idea.isLiked}
-                        ideaDescription={idea.ideaDescription}
-                        createdAt={idea.queryDate}
-                        theme={idea.parameterTheme}
-                        handleNavigateDetail={handleNavigateDetail}
-                        handleFavorite={handleFavorite}
+                        createdAt={idea.generationDate}
                       />
                     ))}
                 </div>

@@ -1,7 +1,7 @@
 import {parseISO, formatDistanceToNow} from 'date-fns';
 import {es} from 'date-fns/locale';
 
-export default function Card({idea, ideaId, isLiked, ideaDescription, createdAt, theme, handleNavigateDetail, handleFavorite}) {
+export default function Card({idea, ideaId, isLiked,  createdAt, handleNavigateDetail = (ideaId)=>{}, handleFavorite = (ideaId, isLiked)=>{}}) {
     const parseDate = parseISO(createdAt);
     const formattedDate = formatDistanceToNow(parseDate, {addSuffix: true, locale: es});
     console.log(ideaId, isLiked);
