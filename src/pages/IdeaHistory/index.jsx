@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './IdeaHistory.css';
 import { useAuth } from "../../contexts/AuthContext";
 import Loader from '../../components/Loader';
 import NavBar from '../../components/Nav-bar';
@@ -22,36 +21,39 @@ const IdeaHistory = () => {
 
   const handleFavorite = async (userId, ideaId, isLiked) => {
     try {
+      let response;
+  
       if (isLiked) {
-      const response = await axios.post(
-        `http://localhost:3001/api/favorites`,
-        {
-          userId,
-          ideaId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${currentUser.token}`,
+        response = await axios.delete(
+          `http://localhost:3001/api/favorites/${userId}/${ideaId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${currentUser.token}`,
+            },
+          }
+        );
+      } else {
+        response = await axios.post(
+          `http://localhost:3001/api/favorites`,
+          {
+            userId,
+            ideaId,
           },
-        }
-      );
-    } else {
-      const response = await axios.delete(
-        `http://localhost:3001/api/favorites/${userId}/${ideaId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${currentUser.token}`,
-          },
-        }
-      );
-    }
-
-      if (response.status === 201) {  // Revisamos si el estado es 201 (creado)
-        // Actualizar el estado de "Me gusta" para la idea correspondiente
+          {
+            headers: {
+              Authorization: `Bearer ${currentUser.token}`,
+            },
+          }
+        );
+      }
+  
+  
+      if (response.status === 201 || response.status === 204) { 
+        
         setIdeas((prevIdeas) =>
           prevIdeas.map((idea) =>
             idea.ideaId === ideaId
-              ? { ...idea, isLiked: !isLiked }
+              ? { ...idea, isLiked: !isLiked } 
               : idea
           )
         );
@@ -59,9 +61,8 @@ const IdeaHistory = () => {
         alert('Hubo un error al procesar la solicitud de Me gusta.');
       }
     } catch (err) {
-      console.error('Error al actualizar el favorito:', err);
-      alert('Hubo un error al procesar tu solicitud. Por favor, inténtalo de nuevo.');
-    }
+      console.error('Error al actualizar el favorito:', err);
+    }
   };
 
   useEffect(() => {
@@ -139,39 +140,7 @@ const IdeaHistory = () => {
                 handleNavigateDetail={handleNavigateDetail}
                 handleFavorite={handleFavorite}
               />
-              // <div key={idea.historyId} className="idea-card">
-              //   <h3 className="idea-card__title">{idea.ideaDescription}</h3>
-              //   <p className="idea-card__parameter">{idea.parameterId}</p>
-              //   <small className="idea-card__date">Creado en: {formatDate(idea.createdAt)}</small>
-              //   <p className="idea-card__description">{idea.ideaDescription}</p>
-              //   <p className="idea-card__technologies">Tecnologías recomendadas: {idea.ideaRecommendedTechnologies}</p>
-              //   <p className="idea-card__patterns">Patrones de diseño: {idea.ideaDesignPatterns}</p>
-              //   <p className="idea-card__additional-features">Características adicionales: {idea.ideaAdditionalFeatures}</p>
-              //   <p className="idea-card__level">Nivel de conocimiento: {idea.ideaKnowledgeLevel}</p>
-              //   <p className="idea-card__generation-date">Fecha de generación: {formatDate(idea.ideaGenerationDate)}</p>
-              //   <p className="idea-card__theme">Tema: {idea.parameterTheme}</p>
-              //   <p className="idea-card__preferred-technologies">Tecnologías preferidas: {idea.parameterTechnologies}</p>
-              //   <p className="idea-card__preferred-patterns">Patrones preferidos: {idea.parameterPreferredDesignPatterns}</p>
-              //   <p className="idea-card__parameter-description">{idea.parameterDescription}</p>
-              //   <div className="idea-card__actions">
-              //     <button
-              //       className="idea-card__like-button"
-              //       onClick={() =>
-              //         idea.isLiked
-              //           ? handleDeleteFavorite(currentUser.userId, idea.ideaId, idea.isLiked)
-              //           : handleAddFavorite(currentUser.userId, idea.ideaId, idea.isLiked)
-              //       }
-              //     >
-              //       {idea.isLiked ? "Quitar me gusta" : "Me gusta"}
-              //     </button>
-              //     <button
-              //       className="idea-card__detail-button"
-              //       onClick={() => handleNavigateDetail(idea.ideaId)}
-              //     >
-              //       DETALLES
-              //     </button>
-              //   </div>
-              // </div>
+            
             ))
           ) : (
             <p className="idea-history__no-ideas">No hay ideas disponibles.</p>

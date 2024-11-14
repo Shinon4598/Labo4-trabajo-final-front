@@ -12,7 +12,8 @@ const Home = () => {
   return (
     <div className="prueba">
       <NavBar>
-        <a href="/history">Guardado</a>
+        <a href="/history">Historial</a>
+        <a href="/favorites">Favoritos</a>
         <a href="/profile">Perfil</a>
       </NavBar>
       <main className="container">

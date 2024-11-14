@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useAuth } from "../../contexts/AuthContext";
-import './IdeaFavorites.css';
+import Loader from "../../components/Loader";
+import Card from "../../components/Card";
 
 export default function IdeaFavorites() {
     const [ideas, setIdeas] = useState([]);
     const { currentUser } = useAuth();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchIdeas = async () => {
@@ -18,6 +20,9 @@ export default function IdeaFavorites() {
                 setIdeas(response.data);
             } catch (error) {
                 console.error('Error al cargar las ideas:', error);
+            }
+            finally {
+                setLoading(false);
             }
         };
 
@@ -34,42 +39,24 @@ export default function IdeaFavorites() {
     };
 
     return (
-        <div className="idea-favorites-container">
-            <h1 className="idea-favorites-title">Ideas Favoritas</h1>
+        <div className="mx-15">
+            <h1 className="text-indigo-950 font-bold text-2xl">Ideas Favoritas</h1>
+            {loading && <Loader fullScreen={true}/>}
+
             {ideas.length > 0 ? (
-                <div className="idea-grid">
+                <div className="grid grid-cols-2 gap-4">
                     {ideas.map((idea) => (
-                        <div key={idea.ideaId} className="idea-card">
-                            <p className="idea-card-description">{idea.description ?? 'Descripción no disponible'}</p>
-
-                            {idea.recommendedTechnologies && (
-                                <div className="idea-technologies">
-                                    <strong>Tecnologías Recomendadas:</strong>
-                                    <p dangerouslySetInnerHTML={{ __html: idea.recommendedTechnologies.replace(/\n/g, '<br/>') }} />
-                                </div>
-                            )}
-
-                            {idea.designPatterns && (
-                                <p className="idea-card-design-patterns">
-                                    <strong>Patrones de Diseño:</strong> {idea.designPatterns}
-                                </p>
-                            )}
-
-                            {idea.additionalFeatures && (
-                                <div className="idea-additional-features">
-                                    <strong>Características Adicionales:</strong>
-                                    <p>{idea.additionalFeatures}</p>
-                                </div>
-                            )}
-
-                            {idea.knowledgeLevel && (
-                                <p className="idea-card-knowledge-level">
-                                    <strong>Nivel de Conocimiento:</strong> {idea.knowledgeLevel}
-                                </p>
-                            )}
-
-                            <small className="idea-card-date">Creado el: {formatDate(idea.generationDate)}</small>
-                        </div>
+                        <Card
+                        key={idea.historyId}
+                        idea={idea.ideaDescription}
+                        ideaId={idea.ideaId}
+                        isLiked={idea.isLiked}
+                        ideaDescription={idea.ideaDescription}
+                        createdAt={idea.queryDate}
+                        theme={idea.parameterTheme}
+                        handleNavigateDetail={handleNavigateDetail}
+                        handleFavorite={handleFavorite}
+                      />
                     ))}
                 </div>
             ) : (

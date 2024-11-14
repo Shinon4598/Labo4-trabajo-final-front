@@ -1,7 +1,7 @@
-export default function loader(params) {
+export default function loader({ fullScreen = false}) {
     return (
-        <div className="flex justify-center items-center my-5">
-            <div className="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"></div>
+        <div className={`flex justify-center items-center my-5 ${fullScreen && 'absolute top-52 left-1/2'}`}>
+            <div className="w-16 h-16 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"></div>
         </div>
     );
 }
