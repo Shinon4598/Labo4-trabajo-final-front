@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './IdeaHistory.css';
 import { useAuth } from "../../contexts/AuthContext";
-import Loader from '../../components/Loader';
-import Card from '../../components/Card';
 
 const IdeaHistory = () => {
   const [ideas, setIdeas] = useState([]);
@@ -126,54 +125,6 @@ const IdeaHistory = () => {
 
     fetchIdeaHistory();
   }, []);
-
-
-  useEffect(() => {
-    const fetchIdeaHistory = async () => {
-      try {
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (!user || !user.userId || !user.token) {
-          setError('Usuario no autenticado. Por favor, inicie sesión.');
-          setLoading(false);
-          return;
-        }
-
-        const headers = {
-          Authorization: `Bearer ${user.token}`,
-        };
-
-        const response = await axios.get(
-          `http://localhost:3001/api/idea-history/${user.userId}`,
-          { headers }
-        );
-
-        console.log('Datos recibidos de la API:', response.data);
-
-        if (Array.isArray(response.data)) {
-          setIdeas(response.data.map(idea => ({
-            ...idea,
-            isLiked: idea.isLiked || false,  // Agregamos la propiedad "isLiked"
-          })));
-        } else {
-          console.warn('La respuesta de la API no es un array');
-          setIdeas([]);
-        }
-      } catch (err) {
-        console.error('Error obteniendo el historial de ideas:', err);
-
-        if (err.response?.status === 401) {
-          setError('Error de autenticación. Por favor, inicie sesión.');
-        } else {
-          setError('Error obteniendo el historial de ideas.');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchIdeaHistory();
-  }, []);
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     if (date.getTime()) {
@@ -185,7 +136,6 @@ const IdeaHistory = () => {
   const handleRedirect = () => {
     navigate('/profile');
   };
-
   return (
     <div className="idea-history">
       <h2 className="idea-history__title">Historial de Ideas</h2>
