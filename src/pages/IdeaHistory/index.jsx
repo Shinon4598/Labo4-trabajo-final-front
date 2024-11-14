@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './IdeaHistory.css';
 import { useAuth } from "../../contexts/AuthContext";
+import Loader from '../../components/Loader';
+import NavBar from '../../components/Nav-bar';
+import Card from '../../components/Card';
 
 const IdeaHistory = () => {
   const [ideas, setIdeas] = useState([]);
@@ -15,6 +18,15 @@ const IdeaHistory = () => {
 
   const handleNavigateDetail = (ideaId) => {
     navigate(`/idea-detail/${ideaId}`);
+  };
+
+  const handleFavorite = (ideaId, isLiked) => {
+    if (isLiked) {
+      handleDeleteFavorite(currentUser.userId, ideaId, isLiked);
+    }
+    else {
+      handleAddFavorite(currentUser.userId, ideaId, isLiked);
+    }
   };
 
   const handleAddFavorite = async (userId, ideaId, isLiked) => {
@@ -137,49 +149,64 @@ const IdeaHistory = () => {
     navigate('/profile');
   };
   return (
-    <div className="idea-history">
-      <h2 className="idea-history__title">Historial de Ideas</h2>
+    <>
+      <NavBar>
+        <a href="/history">Guardado</a>
+        <a href="/profile">Perfil</a>
+      </NavBar>
+      <h2 className="text-3xl font-bold my-2 text-[#1e0e4b] text-center mt-8">Historial de Ideas</h2>
       {error ? (
         <p className="idea-history__error-message">{error}</p>
       ) : loading ? (
         <Loader/>
       ) : (
-        <div className="idea-history__cards">
+        <div className="mx-16">
           {ideas.length > 0 ? (
             ideas.map((idea) => (
-              <div key={idea.historyId} className="idea-card">
-                <h3 className="idea-card__title">{idea.ideaDescription}</h3>
-                <p className="idea-card__parameter">{idea.parameterId}</p>
-                <small className="idea-card__date">Creado en: {formatDate(idea.createdAt)}</small>
-                <p className="idea-card__description">{idea.ideaDescription}</p>
-                <p className="idea-card__technologies">Tecnologías recomendadas: {idea.ideaRecommendedTechnologies}</p>
-                <p className="idea-card__patterns">Patrones de diseño: {idea.ideaDesignPatterns}</p>
-                <p className="idea-card__additional-features">Características adicionales: {idea.ideaAdditionalFeatures}</p>
-                <p className="idea-card__level">Nivel de conocimiento: {idea.ideaKnowledgeLevel}</p>
-                <p className="idea-card__generation-date">Fecha de generación: {formatDate(idea.ideaGenerationDate)}</p>
-                <p className="idea-card__theme">Tema: {idea.parameterTheme}</p>
-                <p className="idea-card__preferred-technologies">Tecnologías preferidas: {idea.parameterTechnologies}</p>
-                <p className="idea-card__preferred-patterns">Patrones preferidos: {idea.parameterPreferredDesignPatterns}</p>
-                <p className="idea-card__parameter-description">{idea.parameterDescription}</p>
-                <div className="idea-card__actions">
-                  <button
-                    className="idea-card__like-button"
-                    onClick={() =>
-                      idea.isLiked
-                        ? handleDeleteFavorite(currentUser.userId, idea.ideaId, idea.isLiked)
-                        : handleAddFavorite(currentUser.userId, idea.ideaId, idea.isLiked)
-                    }
-                  >
-                    {idea.isLiked ? "Quitar me gusta" : "Me gusta"}
-                  </button>
-                  <button
-                    className="idea-card__detail-button"
-                    onClick={() => handleNavigateDetail(idea.ideaId)}
-                  >
-                    DETALLES
-                  </button>
-                </div>
-              </div>
+              <Card
+                key={idea.historyId}
+                idea={idea.ideaDescription}
+                ideaId={idea.ideaId}
+                isLiked={idea.isLiked}
+                ideaDescription={idea.ideaDescription}
+                createdAt={idea.queryDate}
+                theme={idea.parameterTheme}
+                handleNavigateDetail={handleNavigateDetail}
+                handleFavorite={handleFavorite}
+              />
+              // <div key={idea.historyId} className="idea-card">
+              //   <h3 className="idea-card__title">{idea.ideaDescription}</h3>
+              //   <p className="idea-card__parameter">{idea.parameterId}</p>
+              //   <small className="idea-card__date">Creado en: {formatDate(idea.createdAt)}</small>
+              //   <p className="idea-card__description">{idea.ideaDescription}</p>
+              //   <p className="idea-card__technologies">Tecnologías recomendadas: {idea.ideaRecommendedTechnologies}</p>
+              //   <p className="idea-card__patterns">Patrones de diseño: {idea.ideaDesignPatterns}</p>
+              //   <p className="idea-card__additional-features">Características adicionales: {idea.ideaAdditionalFeatures}</p>
+              //   <p className="idea-card__level">Nivel de conocimiento: {idea.ideaKnowledgeLevel}</p>
+              //   <p className="idea-card__generation-date">Fecha de generación: {formatDate(idea.ideaGenerationDate)}</p>
+              //   <p className="idea-card__theme">Tema: {idea.parameterTheme}</p>
+              //   <p className="idea-card__preferred-technologies">Tecnologías preferidas: {idea.parameterTechnologies}</p>
+              //   <p className="idea-card__preferred-patterns">Patrones preferidos: {idea.parameterPreferredDesignPatterns}</p>
+              //   <p className="idea-card__parameter-description">{idea.parameterDescription}</p>
+              //   <div className="idea-card__actions">
+              //     <button
+              //       className="idea-card__like-button"
+              //       onClick={() =>
+              //         idea.isLiked
+              //           ? handleDeleteFavorite(currentUser.userId, idea.ideaId, idea.isLiked)
+              //           : handleAddFavorite(currentUser.userId, idea.ideaId, idea.isLiked)
+              //       }
+              //     >
+              //       {idea.isLiked ? "Quitar me gusta" : "Me gusta"}
+              //     </button>
+              //     <button
+              //       className="idea-card__detail-button"
+              //       onClick={() => handleNavigateDetail(idea.ideaId)}
+              //     >
+              //       DETALLES
+              //     </button>
+              //   </div>
+              // </div>
             ))
           ) : (
             <p className="idea-history__no-ideas">No hay ideas disponibles.</p>
@@ -187,7 +214,7 @@ const IdeaHistory = () => {
         </div>
       )}
       <button className="idea-history__profile-button" onClick={handleRedirect}>Ir a Perfil</button>
-    </div>
+    </>
   );
 };  
 
