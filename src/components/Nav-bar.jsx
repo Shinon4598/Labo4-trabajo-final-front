@@ -44,7 +44,7 @@ export default function Navbar(props) {
       )}
       {currentUser && (
         <div className={`${mobileMenuOpen ? 'block' : 'hidden'} lg:flex lg:flex-1 lg:justify-end flex flex-col`}>
-          <Link to="/perfil" className="text-sm/6 font-semibold text-gray-900">Perfil <span aria-hidden="true">&rarr;</span></Link>
+          <Link to="/profile" className="text-sm/6 font-semibold text-gray-900">Perfil <span aria-hidden="true">&rarr;</span></Link>
         </div>
       )}
       

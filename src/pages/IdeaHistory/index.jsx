@@ -125,7 +125,6 @@ const IdeaHistory = () => {
 
     fetchIdeaHistory();
   }, []);
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     if (date.getTime()) {
@@ -137,8 +136,6 @@ const IdeaHistory = () => {
   const handleRedirect = () => {
     navigate('/profile');
   };
-
-
   return (
     <div className="idea-history">
       <h2 className="idea-history__title">Historial de Ideas</h2>
