@@ -160,7 +160,7 @@ const IdeaHistory = () => {
       ) : loading ? (
         <Loader/>
       ) : (
-        <div className="mx-16">
+        <div className="mx-16 grid grid-cols-2 gap-4">
           {ideas.length > 0 ? (
             ideas.map((idea) => (
               <Card
