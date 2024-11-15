@@ -76,15 +76,15 @@ const IdeaGeneratorForm = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (idea.theme.length < 3 || idea.theme.length > 30) {
-      newErrors.theme = 'La temática debe tener entre 3 y 30 caracteres.';
+    if (idea.theme.length < 3 || idea.theme.length > 100) {
+      newErrors.theme = 'La temática debe tener entre 3 y 100 caracteres.';
     }
     if (idea.description.length < 10 || idea.description.length > 250) {
       newErrors.description =
         'La descripción debe tener entre 10 y 250 caracteres.';
     }
-    if (idea.purpose.length < 3 || idea.purpose.length > 30) {
-      newErrors.purpose = 'El propósito debe tener entre 3 y 30 caracteres.';
+    if (idea.purpose.length < 3 || idea.purpose.length > 100) {
+      newErrors.purpose = 'El propósito debe tener entre 3 y 100 caracteres.';
     }
     if (!idea.knowledgeLevel) {
       newErrors.knowledgeLevel =
@@ -144,7 +144,7 @@ const IdeaGeneratorForm = () => {
   return (
     <>
       <NavBar >
-        <a href="/history">Historial</a>
+      <a href={`/history/${currentUser.userId}`}>Historial</a>
         <a href={`/favorites/${currentUser.id}`}>Favoritos</a>
         <a href="/profile">Perfil</a>
       </NavBar >
