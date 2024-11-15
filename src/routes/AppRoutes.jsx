@@ -7,6 +7,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Profile from '../pages/profile';
 import IdeaDetail from '../pages/ideaDetail';
+import IdeaFavorites from '../pages/IdeaFavorites';
 
 const AppRoutes = () => {
     const { currentUser } = useAuth();
@@ -35,7 +36,7 @@ const AppRoutes = () => {
                 }
             />
             <Route
-                path="/history"
+                path="/history/:id"
                 element={
                     currentUser && currentUser.userId ? (
                         <IdeaHistory />
@@ -45,10 +46,10 @@ const AppRoutes = () => {
                 }
             />
             <Route
-                path="/profile"
+                path="/favorites/:id"
                 element={
                     currentUser && currentUser.userId ? (
-                        <Profile />
+                        <IdeaFavorites />
                     ) : (
                         <Navigate to="/login" />
                     )
@@ -64,6 +65,17 @@ const AppRoutes = () => {
                     )
                 }
             />
+            <Route
+                path="/profile"
+                element={
+                    currentUser && currentUser.userId ? (
+                        <Profile />
+                    ) : (
+                        <Navigate to="/login" />
+                    )
+                }
+            />
+            
         </Routes>
     );
 };
