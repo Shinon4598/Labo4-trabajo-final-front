@@ -7,9 +7,6 @@ import { Link } from 'react-router-dom'
 export default function Navbar({ children }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  const { currentUser } = useAuth()
-
-
   return(
     <nav className="p-6 lg:px-8 bg-slate-50 border-gray-200">
       <div className="flex justify-between">
@@ -43,11 +40,6 @@ export default function Navbar({ children }) {
             {children && children.map((child, index) => (
               <Link key={index} to={child.props.href} className="text-sm/6 font-semibold text-violet-500 block relative">{child.props.children}</Link>
             ))}
-            {currentUser && (
-              <div className={`${mobileMenuOpen ? 'block' : 'hidden'} lg:flex lg:flex-1 lg:justify-end flex flex-col`}>
-                <Link to="/profile" className="text-sm/6 font-semibold text-violet-500">Perfil <span aria-hidden="true">&rarr;</span></Link>
-              </div>
-            )}
           </div>
       )}
       

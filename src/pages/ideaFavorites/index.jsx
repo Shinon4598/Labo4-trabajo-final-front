@@ -47,7 +47,7 @@ export default function IdeaFavorites() {
             {loading && <Loader fullScreen={true}/>}
 
             {ideas.length > 0 ? (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid lg:grid-cols-2 gap-4">
                     {ideas.map((idea) => (
                         <Card
                         key={idea.historyId}

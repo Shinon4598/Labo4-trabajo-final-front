@@ -12,18 +12,18 @@ const IdeaHistory = () => {
   const [error, setError] = useState(null);
 
   const { currentUser } = useAuth();
-
   const navigate = useNavigate();
 
   const handleNavigateDetail = (ideaId) => {
     navigate(`/idea-detail/${ideaId}`);
   };
 
-  const handleFavorite = async (userId, ideaId, isLiked) => {
+  const handleFavorite = async (ideaId, userId, isLiked) => {
     try {
       let response;
-  
+
       if (isLiked) {
+        // Eliminar de favoritos
         response = await axios.delete(
           `http://localhost:3001/api/favorites/${userId}/${ideaId}`,
           {
@@ -33,6 +33,7 @@ const IdeaHistory = () => {
           }
         );
       } else {
+        // Añadir a favoritos
         response = await axios.post(
           `http://localhost:3001/api/favorites`,
           {
@@ -46,14 +47,13 @@ const IdeaHistory = () => {
           }
         );
       }
-  
-  
-      if (response.status === 201 || response.status === 204) { 
-        
+
+      if (response.status === 201 || response.status === 204) {
+        // Actualizar el estado del favorito en la UI
         setIdeas((prevIdeas) =>
           prevIdeas.map((idea) =>
             idea.ideaId === ideaId
-              ? { ...idea, isLiked: !isLiked } 
+              ? { ...idea, isLiked: !isLiked } // Invertir el estado de "isLiked"
               : idea
           )
         );
@@ -61,8 +61,8 @@ const IdeaHistory = () => {
         alert('Hubo un error al procesar la solicitud de Me gusta.');
       }
     } catch (err) {
-      console.error('Error al actualizar el favorito:', err);
-    }
+      console.error('Error al actualizar el favorito:', err);
+    }
   };
 
   useEffect(() => {
@@ -84,12 +84,10 @@ const IdeaHistory = () => {
           { headers }
         );
 
-        console.log('Datos recibidos de la API:', response.data);
-
         if (Array.isArray(response.data)) {
           setIdeas(response.data.map(idea => ({
             ...idea,
-            isLiked: idea.isLiked || false,  // Agregamos la propiedad "isLiked"
+            isLiked: idea.isLiked || false, 
           })));
         } else {
           console.warn('La respuesta de la API no es un array');
@@ -97,7 +95,6 @@ const IdeaHistory = () => {
         }
       } catch (err) {
         console.error('Error obteniendo el historial de ideas:', err);
-
         if (err.response?.status === 401) {
           setError('Error de autenticación. Por favor, inicie sesión.');
         } else {
@@ -114,6 +111,7 @@ const IdeaHistory = () => {
   const handleRedirect = () => {
     navigate('/profile');
   };
+
   return (
     <>
       <NavBar>
@@ -124,23 +122,23 @@ const IdeaHistory = () => {
       {error ? (
         <p className="idea-history__error-message">{error}</p>
       ) : loading ? (
-        <Loader/>
+        <Loader />
       ) : (
-        <div className="mx-16 grid grid-cols-2 gap-4">
+        <div className="mx-16 grid lg:grid-cols-2 gap-4">
           {ideas.length > 0 ? (
             ideas.map((idea) => (
               <Card
                 key={idea.historyId}
                 idea={idea.ideaDescription}
                 ideaId={idea.ideaId}
-                isLiked={idea.isLiked}
+                userId={currentUser.userId}
                 ideaDescription={idea.ideaDescription}
                 createdAt={idea.queryDate}
                 theme={idea.parameterTheme}
                 handleNavigateDetail={handleNavigateDetail}
                 handleFavorite={handleFavorite}
+                isLiked={idea.isLiked} 
               />
-            
             ))
           ) : (
             <p className="idea-history__no-ideas">No hay ideas disponibles.</p>
@@ -150,6 +148,6 @@ const IdeaHistory = () => {
       <button className="idea-history__profile-button" onClick={handleRedirect}>Ir a Perfil</button>
     </>
   );
-};  
+};
 
 export default IdeaHistory;
