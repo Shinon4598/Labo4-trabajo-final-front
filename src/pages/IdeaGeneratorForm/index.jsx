@@ -144,7 +144,7 @@ const IdeaGeneratorForm = () => {
   return (
     <>
       <NavBar >
-        <a href="/history">Historial</a>
+      <a href={`/history/${currentUser.userId}`}>Historial</a>
         <a href={`/favorites/${currentUser.id}`}>Favoritos</a>
         <a href="/profile">Perfil</a>
       </NavBar >

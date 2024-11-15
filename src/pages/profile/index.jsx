@@ -1,5 +1,6 @@
 import { useAuth } from "../../contexts/AuthContext";
 import './Profile.css'; // Asegúrate de importar el archivo CSS
+import NavBar from "../../components/Nav-bar";
 
 const Profile = () => {
   const { currentUser } = useAuth();
@@ -9,6 +10,12 @@ const Profile = () => {
   };
 
   return (
+    <>
+    <NavBar >
+      <a href={`/history/${currentUser.userId}`}>Historial</a>
+        <a href={`/favorites/${currentUser.id}`}>Favoritos</a>
+        <a href="/profile">Perfil</a>
+      </NavBar >
     <main className="profile-main">
       <div className="profile-container">
         <h1 className="profile-title">Perfil de Usuario</h1>
@@ -25,6 +32,7 @@ const Profile = () => {
         <button className="logout-button" onClick={logout}>Cerrar sesión</button>
       </div>
     </main>
+    </>
   );
 };
 
