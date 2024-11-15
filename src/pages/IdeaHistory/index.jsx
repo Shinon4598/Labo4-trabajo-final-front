@@ -101,16 +101,17 @@ const IdeaHistory = () => {
   return (
     <>
       <NavBar>
-        <a href="/history">Guardado</a>
+        <a href={`/favorites/${currentUser.userId}`}>Guardado</a>
         <a href="/profile">Perfil</a>
+        <a href="/idea-generator">Generador idea</a>
       </NavBar>
-      <h2 className="text-3xl font-bold my-2 text-[#1e0e4b] text-center mt-8">Historial de Ideas</h2>
+      <h2 className="text-3xl font-bold my-2 text-indigo-950 text-center mt-8">Historial de Ideas</h2>
       {error ? (
         <p className="idea-history__error-message">{error}</p>
       ) : loading ? (
         <Loader />
       ) : (
-        <div className="mx-16 grid lg:grid-cols-2 gap-4">
+        <div className="lg:mx-16 grid lg:grid-cols-2 gap-4">
           {ideas.length > 0 ? (
             ideas.map((idea) => (
               <Card

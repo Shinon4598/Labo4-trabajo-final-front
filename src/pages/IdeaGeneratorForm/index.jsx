@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import Select from 'react-select';
 import ErrorMessage from '../../components/Error-message';
 import SelectOne from '../../components/SelectOne';
+import { useAuth } from "../../contexts/AuthContext";
 
 const IdeaGeneratorForm = () => {
   const [idea, setIdea] = useState({
@@ -20,6 +21,8 @@ const IdeaGeneratorForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+
+  const { currentUser } = useAuth();
 
   // Tecnologías separadas por tipo (frontend/backend)
   const technologiesList = [
@@ -139,12 +142,16 @@ const IdeaGeneratorForm = () => {
 
   return (
     <>
-      <NavBar />
-      <main className="container mx-auto my-14">
-        <h1 className="text-2xl font-bold mb-2 text-indigo-950 text-center">
+      <NavBar >
+        <a href="/history">Historial</a>
+        <a href={`/favorites/${currentUser.id}`}>Favoritos</a>
+        <a href="/profile">Perfil</a>
+      </NavBar >
+      <main className="lg:mx-16">
+        <h1 className="text-2xl my-2 font-bold mb-2 text-indigo-950 text-center">
           Generar una idea de proyecto
         </h1>
-        <form onSubmit={handleSubmit} className="w-full px-52">
+        <form onSubmit={handleSubmit} className="w-full px-5 md:px-20 lg:px-52">
           <fieldset className="fieldset">
             <legend className="font-bold mb-4 text-indigo-950">
               Detalles de la idea
