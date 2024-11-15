@@ -37,18 +37,17 @@ const IdeaHistory = () => {
   const removeFavorite = async (ideaId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3001/api/favorites/${currentUser.userId}/${ideaId}`,
+        `http://localhost:3001/api/favorites`,
+        { userId: currentUser.userId, ideaId },
         {
           headers: { Authorization: `Bearer ${currentUser.token}` },
         }
       );
-      if (response.status === 204) {
-        setFavorites((prevFavorites) =>
-          prevFavorites.filter((favId) => favId !== ideaId)
-        );
+      if (response.status === 201) {
+        setFavorites((prevFavorites) => [...prevFavorites, ideaId]);
       }
     } catch (err) {
-      console.error('Error eliminando de favoritos:', err);
+      console.error('Error añadiendo a favoritos:', err);
     }
   };
 
