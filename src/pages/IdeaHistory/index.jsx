@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import Loader from '../../components/Loader';
-import NavBar from '../../components/Nav-bar';
-import Card from '../../components/Card';
+import Loader from "../../components/Loader";
+import NavBar from "../../components/Nav-bar";
+import Card from "../../components/Card";
+import { Link } from "react-router-dom";
 
 const IdeaHistory = () => {
   const [ideas, setIdeas] = useState([]);
@@ -18,7 +19,7 @@ const IdeaHistory = () => {
   const handleFavorite = async (ideaId, userId) => {
     try {
       let response;
-      console.log(currentUser)
+      console.log(currentUser);
 
       if (favorites.includes(ideaId)) {
         // Eliminar de favoritos
@@ -53,10 +54,10 @@ const IdeaHistory = () => {
           setFavorites([...favorites, ideaId]);
         }
       } else {
-        alert('Hubo un error al procesar la solicitud de Me gusta.');
+        alert("Hubo un error al procesar la solicitud de Me gusta.");
       }
     } catch (err) {
-      console.error('Error al actualizar el favorito:', err);
+      console.error("Error al actualizar el favorito:", err);
     }
   };
 
@@ -67,19 +68,25 @@ const IdeaHistory = () => {
       try {
         // Llamadas en paralelo
         const [favoritesResponse, ideasResponse] = await Promise.all([
-          axios.get(`http://localhost:3001/api/favorites/${currentUser.userId}`, {
-            headers: { Authorization: `Bearer ${currentUser.token}` },
-          }),
-          axios.get(`http://localhost:3001/api/idea-history/${currentUser.userId}`, {
-            headers: { Authorization: `Bearer ${currentUser.token}` },
-          }),
+          axios.get(
+            `http://localhost:3001/api/favorites/${currentUser.userId}`,
+            {
+              headers: { Authorization: `Bearer ${currentUser.token}` },
+            }
+          ),
+          axios.get(
+            `http://localhost:3001/api/idea-history/${currentUser.userId}`,
+            {
+              headers: { Authorization: `Bearer ${currentUser.token}` },
+            }
+          ),
         ]);
 
         setFavorites(favoritesResponse.data.map((fav) => fav.ideaId));
         setIdeas(ideasResponse.data);
       } catch (err) {
-        console.error('Error obteniendo datos:', err);
-        setError('Error obteniendo los datos. Intenta de nuevo.');
+        console.error("Error obteniendo datos:", err);
+        setError("Error obteniendo los datos. Intenta de nuevo.");
       } finally {
         setLoading(false);
       }
@@ -89,7 +96,7 @@ const IdeaHistory = () => {
   }, [currentUser.userId, currentUser.token]);
 
   const handleRedirect = () => {
-    navigate('/profile');
+    navigate("/profile");
   };
 
   if (loading) {
@@ -105,27 +112,28 @@ const IdeaHistory = () => {
         <a href="/profile">Perfil</a>
         <a href="/idea-generator">Generador idea</a>
       </NavBar>
-      <h2 className="text-3xl font-bold my-2 text-indigo-950 text-center mt-8">Historial de Ideas</h2>
-      {ideas.length > 0 && (
+      <h2 className="text-3xl font-bold my-2 text-indigo-950 text-center mt-8">
+        Historial de Ideas
+      </h2>
+      {ideas.length > 0 ? (
         <div className="lg:mx-16 grid lg:grid-cols-2 gap-4">
-          {ideas.length > 0 ? (
-            ideas.map((idea) => (
-              <Card
-                key={idea.ideaId}
-                idea={idea.ideaDescription}
-                ideaId={idea.ideaId}
-                userId={currentUser.userId}
-                createdAt={idea.queryDate}
-                handleFavorite={() => handleFavorite(idea.ideaId)}
-                isFavorite={favorites.includes(idea.ideaId)} // Comprobamos si está en favoritos
-              />
-            ))
-          ) : (
-            <p className="idea-history__no-ideas">No hay ideas disponibles.</p>
-          )}
+          {ideas.map((idea) => (
+          <Card
+            key={idea.ideaId}
+            idea={idea.ideaDescription}
+            ideaId={idea.ideaId}
+            userId={currentUser.userId}
+            createdAt={idea.queryDate}
+            handleFavorite={() => handleFavorite(idea.ideaId)}
+            isFavorite={favorites.includes(idea.ideaId)} // Comprobamos si está en favoritos
+          />
+          ) )}
         </div>
+      ) : (
+        <Link className="flex justify-center font-bold text-1xl my-4 mt-6 text-indigo-600" to="/idea-generator">
+          Genere nuevas ideas
+        </Link>
       )}
-      <button className="idea-history__profile-button" onClick={handleRedirect}>Ir a Perfil</button>
     </>
   );
 };

@@ -13,7 +13,6 @@
 }
 /* Animación de fondo de gradiente */
 .element {
-    width: 70%;
     height: 80%;
     position: absolute;
     z-index: -1;

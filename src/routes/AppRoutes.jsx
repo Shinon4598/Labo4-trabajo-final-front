@@ -36,7 +36,7 @@ const AppRoutes = () => {
                 }
             />
             <Route
-                path="/history"
+                path="/history/:id"
                 element={
                     currentUser && currentUser.userId ? (
                         <IdeaHistory />

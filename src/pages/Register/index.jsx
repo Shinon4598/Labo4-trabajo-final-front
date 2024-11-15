@@ -24,8 +24,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validación de la contraseña
-        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>-])[A-Za-z\d!@#$%^&*(),.?":{}|<>-]{8,}$/;
         if (user.password !== user.confirmPassword) {
             setError('Las contraseñas no coinciden');
             return;

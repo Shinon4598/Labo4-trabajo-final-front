@@ -16,11 +16,11 @@ const Home = () => {
     <div className="prueba">
       <NavBar>
         <a href={`/favorites/${currentUser.userId}`}>Favoritos</a>
-        <a href={`/history/`}>Historial</a>
+        <a href={`/history/${currentUser.userId}`}>Historial</a>
         <a href="/profile">Perfil</a>
       </NavBar>
-      <main className="container">
-        <div className="element"></div>
+      <main className="container m-auto">
+        <div className="element w-full lg:w-4/5"></div>
 
         <div className="banner">
           <div className="text-banner">

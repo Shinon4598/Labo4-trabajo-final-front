@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Loader from "../../components/Loader";
 import Card from "../../components/Card";
 import NavBar from "../../components/Nav-bar";
+import { Link } from "react-router-dom";
 
 export default function IdeaFavorites() {
     const [ideas, setIdeas] = useState([]);
@@ -88,7 +89,7 @@ export default function IdeaFavorites() {
     return (
         <>
             <NavBar>
-                <a href='/history'>Historial</a>
+                <a href={`/history/${currentUser.userId}`}>Historial</a>
                 <a href="/profile">Perfil</a>
                 <a href="/idea-generator">Generador idea</a>
             </NavBar>
@@ -110,7 +111,9 @@ export default function IdeaFavorites() {
                         ))}
                     </div>
                 ) : (
-                    <p className="no-favorites">No tienes ideas favoritas.</p>
+                  <Link className="flex justify-center font-bold text-1xl my-4 mt-6 text-indigo-600" to="/idea-generator">
+                    Genere nuevas ideas
+                  </Link>
                 )}
             </main>
         </>
