@@ -117,7 +117,7 @@ const IdeaHistory = () => {
                 userId={currentUser.userId}
                 createdAt={idea.queryDate}
                 handleFavorite={() => handleFavorite(idea.ideaId)}
-                isLiked={favorites.includes(idea.ideaId)} // Comprobamos si está en favoritos
+                isFavorite={favorites.includes(idea.ideaId)} // Comprobamos si está en favoritos
               />
             ))
           ) : (

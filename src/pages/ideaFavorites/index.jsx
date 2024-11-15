@@ -11,50 +11,50 @@ export default function IdeaFavorites() {
     const [loading, setLoading] = useState(true);
     const [favorites, setFavorites] = useState([]);
 
-    const addFavorite = async (ideaId) => {
-        try {
-          const response = await axios.post(
-            `http://localhost:3001/api/favorites`,
-            { userId: currentUser.userId, ideaId },
-            {
-              headers: { Authorization: `Bearer ${currentUser.token}` },
-            }
-          );
-          if (response.status === 201) {
-            setFavorites((prevFavorites) => [...prevFavorites, ideaId]);
-          }
-        } catch (err) {
-          console.error('Error añadiendo a favoritos:', err);
-        }
-      };
-    
-      // Función para eliminar un favorito
-      const removeFavorite = async (ideaId) => {
-        try {
-          const response = await axios.delete(
+    const handleFavorite = async (ideaId, userId) => {
+      try {
+        let response;
+        console.log(currentUser)
+  
+        if (favorites.includes(ideaId)) {
+          // Eliminar de favoritos
+          response = await axios.delete(
             `http://localhost:3001/api/favorites/${currentUser.userId}/${ideaId}`,
             {
-              headers: { Authorization: `Bearer ${currentUser.token}` },
+              headers: {
+                Authorization: `Bearer ${currentUser.token}`,
+              },
             }
           );
-          if (response.status === 204) {
-            setFavorites((prevFavorites) =>
-              prevFavorites.filter((favId) => favId !== ideaId)
-            );
-          }
-        } catch (err) {
-          console.error('Error eliminando de favoritos:', err);
-        }
-      };
-    
-      // Función para manejar el clic en favorito
-      const handleFavorite = (ideaId) => {
-        if (favorites.includes(ideaId)) {
-          removeFavorite(ideaId);
         } else {
-          addFavorite(ideaId);
+          // Añadir a favoritos
+          response = await axios.post(
+            `http://localhost:3001/api/favorites`,
+            {
+              userId: currentUser.userId,
+              ideaId,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${currentUser.token}`,
+              },
+            }
+          );
         }
-      };
+        if (response.status === 201 || response.status === 200) {
+          // Actualizar el estado del favorito en la UI
+          if (favorites.includes(ideaId)) {
+            setFavorites(favorites.filter((favId) => favId !== ideaId));
+          } else {
+            setFavorites([...favorites, ideaId]);
+          }
+        } else {
+          alert('Hubo un error al procesar la solicitud de Me gusta.');
+        }
+      } catch (err) {
+        console.error('Error al actualizar el favorito:', err);
+      }
+    };
 
     useEffect(() => {
         const fetchIdeas = async () => {
