@@ -22,6 +22,7 @@ const IdeaHistory = () => {
     try {
       let response;
 
+      console.log(ideaId, userId, isLiked);
       if (isLiked) {
         // Eliminar de favoritos
         response = await axios.delete(
@@ -84,6 +85,7 @@ const IdeaHistory = () => {
           { headers }
         );
 
+        console.log('Datos recibidos de la API:', response.data);
         if (Array.isArray(response.data)) {
           setIdeas(response.data.map(idea => ({
             ...idea,
