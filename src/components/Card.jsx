@@ -8,7 +8,7 @@ export default function Card({
   createdAt,
   handleNavigateDetail,
   handleFavorite,
-  isLiked // Recibimos isLiked como prop
+  isFavorite // Recibimos isFavorite en lugar de isLiked
 }) {
   const parseDate = parseISO(createdAt);
   const formattedDate = formatDistanceToNow(parseDate, { addSuffix: true, locale: es });
@@ -26,9 +26,9 @@ export default function Card({
 
         <button
           className="rounded text-neutral-800 font-extrabold p-3 w-min text-3xl hover:scale-110 transform duration-500 right-0 top-0 absolute"
-          onClick={() => handleFavorite(ideaId, userId, isLiked)} // Pasamos isLiked al hacer clic
+          onClick={() => handleFavorite(ideaId, userId)}
         >
-          ❤️
+          {isFavorite ? '💖' : '🤍'}
         </button>
 
         <button

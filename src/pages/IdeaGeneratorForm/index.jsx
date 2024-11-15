@@ -21,14 +21,35 @@ const IdeaGeneratorForm = () => {
 
   const [errors, setErrors] = useState({});
 
+  // Tecnologías separadas por tipo (frontend/backend)
   const technologiesList = [
-    { value: 'React', label: 'React' },
-    { value: 'Node.js', label: 'Node.js' },
-    { value: 'Express', label: 'Express' },
-    { value: 'MongoDB', label: 'MongoDB' },
-    { value: 'MySQL', label: 'MySQL' },
-    { value: 'Python', label: 'Python' }
+    { value: 'React', label: 'React', type: 'frontend' },
+    { value: 'Node.js', label: 'Node.js', type: 'backend' },
+    { value: 'Express', label: 'Express', type: 'backend' },
+    { value: 'MongoDB', label: 'MongoDB', type: 'backend' },
+    { value: 'MySQL', label: 'MySQL', type: 'backend' },
+    { value: 'Python', label: 'Python', type: 'backend' },
+    { value: 'Angular', label: 'Angular', type: 'frontend' },
+    { value: 'Vue.js', label: 'Vue.js', type: 'frontend' },
+    { value: 'Svelte', label: 'Svelte', type: 'frontend' },
+    { value: 'Laravel', label: 'Laravel', type: 'backend' },
+    { value: 'Ruby on Rails', label: 'Ruby on Rails', type: 'backend' },
+    { value: 'Django', label: 'Django', type: 'backend' },
+    { value: 'Flask', label: 'Flask', type: 'backend' },
+    { value: 'Next.js', label: 'Next.js', type: 'frontend' },
+    { value: 'Gatsby', label: 'Gatsby', type: 'frontend' },
+    { value: 'Tailwind CSS', label: 'Tailwind CSS', type: 'frontend' },
+    { value: 'Bootstrap', label: 'Bootstrap', type: 'frontend' },
+    { value: 'GraphQL', label: 'GraphQL', type: 'backend' },
+    { value: 'Apollo', label: 'Apollo', type: 'backend' },
+    { value: 'Redis', label: 'Redis', type: 'backend' },
+    { value: 'Kubernetes', label: 'Kubernetes', type: 'backend' },
+    { value: 'Docker', label: 'Docker', type: 'backend' },
+    { value: 'TypeScript', label: 'TypeScript', type: 'frontend' },
+    { value: 'Golang', label: 'Golang', type: 'backend' },
+    { value: 'C#', label: 'C#', type: 'backend' }
   ];
+  
 
   const designPatternsList = [
     { value: 'Singleton', label: 'Singleton' },
@@ -108,6 +129,14 @@ const IdeaGeneratorForm = () => {
     }
   };
 
+  // Filtrar tecnologías por tipo
+  const frontendTechnologies = technologiesList.filter(
+    tech => tech.type === 'frontend'
+  );
+  const backendTechnologies = technologiesList.filter(
+    tech => tech.type === 'backend'
+  );
+
   return (
     <>
       <NavBar />
@@ -170,20 +199,41 @@ const IdeaGeneratorForm = () => {
               Tecnologías y patrones de diseño
             </legend>
 
-            <label htmlFor="technologies">Tecnologías</label>
-            <Select
-              id="technologies"
-              name="technologies"
-              isMulti
-              options={technologiesList}
-              className="multi-select"
-              onChange={selectedOptions =>
-                handleChange(
-                  'technologies',
-                  selectedOptions.map(option => option.value)
-                )
-              }
-            />
+            {/* Tecnologías de Frontend */}
+            <div className="mb-4">
+              <label htmlFor="frontendTechnologies">Tecnologías Frontend</label>
+              <Select
+                id="frontendTechnologies"
+                name="frontendTechnologies"
+                isMulti
+                options={frontendTechnologies}
+                className="multi-select"
+                onChange={selectedOptions =>
+                  handleChange(
+                    'technologies',
+                    selectedOptions.map(option => option.value)
+                  )
+                }
+              />
+            </div>
+
+            {/* Tecnologías de Backend */}
+            <div className="mb-4">
+              <label htmlFor="backendTechnologies">Tecnologías Backend</label>
+              <Select
+                id="backendTechnologies"
+                name="backendTechnologies"
+                isMulti
+                options={backendTechnologies}
+                className="multi-select"
+                onChange={selectedOptions =>
+                  handleChange(
+                    'technologies',
+                    selectedOptions.map(option => option.value)
+                  )
+                }
+              />
+            </div>
 
             <label htmlFor="designPatterns">Patrones de diseño</label>
             <Select

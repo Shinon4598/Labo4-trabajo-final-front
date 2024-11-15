@@ -81,3 +81,28 @@
 .submit-button:hover {
     background-color: #0056b3;
 }
+
+
+/* Añadir en tu archivo CSS */
+.error-text {
+    color: #dc2626; /* Rojo más fuerte */
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: bold;
+  }
+  
+  textarea {
+    border: 1px solid #d1d5db;
+    transition: border-color 0.3s ease;
+  }
+  
+  textarea:focus {
+    border-color: #6366f1; /* Color de borde azul cuando esté enfocado */
+    outline: none;
+  }
+  
+  input[type="text"]:focus,
+  textarea:focus {
+    border-color: #6366f1;
+  }
+  

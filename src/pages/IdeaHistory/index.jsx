@@ -8,107 +8,91 @@ import Card from '../../components/Card';
 
 const IdeaHistory = () => {
   const [ideas, setIdeas] = useState([]);
+  const [favorites, setFavorites] = useState([]); // Almacena los favoritos del usuario
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
+  // Navegación al detalle de la idea
   const handleNavigateDetail = (ideaId) => {
     navigate(`/idea-detail/${ideaId}`);
   };
 
-  const handleFavorite = async (ideaId, userId, isLiked) => {
+  // Función para añadir un favorito
+  const addFavorite = async (ideaId) => {
     try {
-      let response;
-
-      console.log(ideaId, userId, isLiked);
-      if (isLiked) {
-        // Eliminar de favoritos
-        response = await axios.delete(
-          `http://localhost:3001/api/favorites/${userId}/${ideaId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${currentUser.token}`,
-            },
-          }
-        );
-      } else {
-        // Añadir a favoritos
-        response = await axios.post(
-          `http://localhost:3001/api/favorites`,
-          {
-            userId,
-            ideaId,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${currentUser.token}`,
-            },
-          }
-        );
-      }
-
-      if (response.status === 201 || response.status === 204) {
-        // Actualizar el estado del favorito en la UI
-        setIdeas((prevIdeas) =>
-          prevIdeas.map((idea) =>
-            idea.ideaId === ideaId
-              ? { ...idea, isLiked: !isLiked } // Invertir el estado de "isLiked"
-              : idea
-          )
-        );
-      } else {
-        alert('Hubo un error al procesar la solicitud de Me gusta.');
+      const response = await axios.post(
+        `http://localhost:3001/api/favorites`,
+        { userId: currentUser.userId, ideaId },
+        {
+          headers: { Authorization: `Bearer ${currentUser.token}` },
+        }
+      );
+      if (response.status === 201) {
+        setFavorites((prevFavorites) => [...prevFavorites, ideaId]);
       }
     } catch (err) {
-      console.error('Error al actualizar el favorito:', err);
+      console.error('Error añadiendo a favoritos:', err);
     }
   };
 
-  useEffect(() => {
-    const fetchIdeaHistory = async () => {
-      try {
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (!user || !user.userId || !user.token) {
-          setError('Usuario no autenticado. Por favor, inicie sesión.');
-          setLoading(false);
-          return;
+  // Función para eliminar un favorito
+  const removeFavorite = async (ideaId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/api/favorites/${currentUser.userId}/${ideaId}`,
+        {
+          headers: { Authorization: `Bearer ${currentUser.token}` },
         }
-
-        const headers = {
-          Authorization: `Bearer ${user.token}`,
-        };
-
-        const response = await axios.get(
-          `http://localhost:3001/api/idea-history/${user.userId}`,
-          { headers }
+      );
+      if (response.status === 204) {
+        setFavorites((prevFavorites) =>
+          prevFavorites.filter((favId) => favId !== ideaId)
         );
+      }
+    } catch (err) {
+      console.error('Error eliminando de favoritos:', err);
+    }
+  };
 
-        console.log('Datos recibidos de la API:', response.data);
-        if (Array.isArray(response.data)) {
-          setIdeas(response.data.map(idea => ({
-            ...idea,
-            isLiked: idea.isLiked || false, 
-          })));
-        } else {
-          console.warn('La respuesta de la API no es un array');
-          setIdeas([]);
-        }
+  // Función para manejar el clic en favorito
+  const handleFavorite = (ideaId) => {
+    if (favorites.includes(ideaId)) {
+      removeFavorite(ideaId);
+    } else {
+      addFavorite(ideaId);
+    }
+  };
+
+  // Obtener favoritos e ideas
+  useEffect(() => {
+    const fetchFavoritesAndIdeas = async () => {
+      setLoading(true);
+      try {
+        // Llamadas en paralelo
+        const [favoritesResponse, ideasResponse] = await Promise.all([
+          axios.get(`http://localhost:3001/api/favorites/${currentUser.userId}`, {
+            headers: { Authorization: `Bearer ${currentUser.token}` },
+          }),
+          axios.get(`http://localhost:3001/api/idea-history/${currentUser.userId}`, {
+            headers: { Authorization: `Bearer ${currentUser.token}` },
+          }),
+        ]);
+
+        setFavorites(favoritesResponse.data.map((fav) => fav.ideaId));
+        setIdeas(ideasResponse.data);
       } catch (err) {
-        console.error('Error obteniendo el historial de ideas:', err);
-        if (err.response?.status === 401) {
-          setError('Error de autenticación. Por favor, inicie sesión.');
-        } else {
-          setError('Error obteniendo el historial de ideas.');
-        }
+        console.error('Error obteniendo datos:', err);
+        setError('Error obteniendo los datos. Intenta de nuevo.');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchIdeaHistory();
-  }, []);
+    fetchFavoritesAndIdeas();
+  }, [currentUser.userId, currentUser.token]);
 
   const handleRedirect = () => {
     navigate('/profile');
@@ -130,16 +114,14 @@ const IdeaHistory = () => {
           {ideas.length > 0 ? (
             ideas.map((idea) => (
               <Card
-                key={idea.historyId}
+                key={idea.ideaId}
                 idea={idea.ideaDescription}
                 ideaId={idea.ideaId}
                 userId={currentUser.userId}
-                ideaDescription={idea.ideaDescription}
                 createdAt={idea.queryDate}
-                theme={idea.parameterTheme}
                 handleNavigateDetail={handleNavigateDetail}
-                handleFavorite={handleFavorite}
-                isLiked={idea.isLiked} 
+                handleFavorite={() => handleFavorite(idea.ideaId)}
+                isLiked={favorites.includes(idea.ideaId)} // Comprobamos si está en favoritos
               />
             ))
           ) : (
