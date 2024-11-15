@@ -35,7 +35,7 @@ export default function IdeaDetail() {
     }, [id]);
 
     if (loading) {
-        return <p>Cargando...</p>;
+        return <Loader></Loader>;
     }
 
     if (error) {

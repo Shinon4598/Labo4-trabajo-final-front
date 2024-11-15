@@ -15,11 +15,6 @@ const IdeaHistory = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
-  // Navegación al detalle de la idea
-  const handleNavigateDetail = (ideaId) => {
-    navigate(`/idea-detail/${ideaId}`);
-  };
-
   // Función para añadir un favorito
   const addFavorite = async (ideaId) => {
     try {
@@ -98,6 +93,12 @@ const IdeaHistory = () => {
     navigate('/profile');
   };
 
+  if (loading) {
+    return <Loader fullScreen={true} />;
+  }
+  if (error) {
+    return <p>{error}</p>;
+  }
   return (
     <>
       <NavBar>
@@ -106,11 +107,7 @@ const IdeaHistory = () => {
         <a href="/idea-generator">Generador idea</a>
       </NavBar>
       <h2 className="text-3xl font-bold my-2 text-indigo-950 text-center mt-8">Historial de Ideas</h2>
-      {error ? (
-        <p className="idea-history__error-message">{error}</p>
-      ) : loading ? (
-        <Loader />
-      ) : (
+      {ideas.length > 0 && (
         <div className="lg:mx-16 grid lg:grid-cols-2 gap-4">
           {ideas.length > 0 ? (
             ideas.map((idea) => (
@@ -120,7 +117,6 @@ const IdeaHistory = () => {
                 ideaId={idea.ideaId}
                 userId={currentUser.userId}
                 createdAt={idea.queryDate}
-                handleNavigateDetail={handleNavigateDetail}
                 handleFavorite={() => handleFavorite(idea.ideaId)}
                 isLiked={favorites.includes(idea.ideaId)} // Comprobamos si está en favoritos
               />

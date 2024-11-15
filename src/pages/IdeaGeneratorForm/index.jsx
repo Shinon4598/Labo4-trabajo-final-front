@@ -140,6 +140,7 @@ const IdeaGeneratorForm = () => {
     tech => tech.type === 'backend'
   );
 
+
   return (
     <>
       <NavBar >

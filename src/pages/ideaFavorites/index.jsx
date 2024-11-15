@@ -43,26 +43,29 @@ export default function IdeaFavorites() {
         });
     };
 
+    if(loading) {
+        return <Loader fullScreen={true} />;
+    }
+
     return (
         <>
             <NavBar>
-                <a href={`/history/${currentUser.userId}`}>Historial</a>
+                <a href='/history'>Historial</a>
                 <a href="/profile">Perfil</a>
                 <a href="/idea-generator">Generador idea</a>
             </NavBar>
             <main className="mx-15">
                 <h1 className="text-3xl font-bold my-2 text-indigo-950 text-center mt-8">Ideas Favoritas</h1>
-                {loading && <Loader fullScreen={true}/>}
 
                 {ideas.length > 0 ? (
                     <div className="lg:mx-16 grid lg:grid-cols-2 gap-4">
                         {ideas.map((idea) => (
                             <Card
-                            key={idea.historyId}
-                            idea={idea.description}
-                            ideaId={idea.ideaId}
-                            isLiked={idea.isLiked}
-                            createdAt={idea.generationDate}
+                                key={idea.ideaId}
+                                idea={idea.description}
+                                ideaId={idea.ideaId}
+                                isLiked={idea.isLiked}
+                                createdAt={idea.generationDate}
                         />
                         ))}
                     </div>

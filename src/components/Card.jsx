@@ -1,5 +1,6 @@
 import { parseISO, formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { Link } from 'react-router-dom';
 
 export default function Card({
   idea,
@@ -31,12 +32,12 @@ export default function Card({
           {isFavorite ? '💖' : '🤍'}
         </button>
 
-        <button
-          className="hover:bg-indigo-950 bg-indigo-800 rounded text-neutral-100 font-extrabold w-full p-3"
-          onClick={() => handleNavigateDetail(ideaId)}
+        <Link
+          className="hover:bg-indigo-950 bg-indigo-800 rounded text-neutral-100 font-extrabold w-full p-3 text-center"
+          to={`/idea-detail/${ideaId}`}
         >
           Ver más
-        </button>
+        </Link>
       </div>
     </div>
   );
