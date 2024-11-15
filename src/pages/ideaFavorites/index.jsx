@@ -9,9 +9,53 @@ export default function IdeaFavorites() {
     const [ideas, setIdeas] = useState([]);
     const { currentUser } = useAuth();
     const [loading, setLoading] = useState(true);
-    const {id} = useAuth();
+    const [favorites, setFavorites] = useState([]);
 
+    const addFavorite = async (ideaId) => {
+        try {
+          const response = await axios.post(
+            `http://localhost:3001/api/favorites`,
+            { userId: currentUser.userId, ideaId },
+            {
+              headers: { Authorization: `Bearer ${currentUser.token}` },
+            }
+          );
+          if (response.status === 201) {
+            setFavorites((prevFavorites) => [...prevFavorites, ideaId]);
+          }
+        } catch (err) {
+          console.error('Error añadiendo a favoritos:', err);
+        }
+      };
     
+      // Función para eliminar un favorito
+      const removeFavorite = async (ideaId) => {
+        try {
+          const response = await axios.delete(
+            `http://localhost:3001/api/favorites/${currentUser.userId}/${ideaId}`,
+            {
+              headers: { Authorization: `Bearer ${currentUser.token}` },
+            }
+          );
+          if (response.status === 204) {
+            setFavorites((prevFavorites) =>
+              prevFavorites.filter((favId) => favId !== ideaId)
+            );
+          }
+        } catch (err) {
+          console.error('Error eliminando de favoritos:', err);
+        }
+      };
+    
+      // Función para manejar el clic en favorito
+      const handleFavorite = (ideaId) => {
+        if (favorites.includes(ideaId)) {
+          removeFavorite(ideaId);
+        } else {
+          addFavorite(ideaId);
+        }
+      };
+
     useEffect(() => {
         const fetchIdeas = async () => {
             try {
@@ -21,6 +65,7 @@ export default function IdeaFavorites() {
                     }
                 });
                 setIdeas(response.data);
+                setFavorites(response.data.map((idea) => idea.ideaId));
         console.log('Datos recibidos de la API:', response.data);
 
             } catch (error) {
@@ -35,13 +80,6 @@ export default function IdeaFavorites() {
             fetchIdeas();
         }
     }, [currentUser]);
-
-    const formatDate = (dateString) => {
-        if (!dateString) return 'Fecha no disponible';
-        return new Date(dateString).toLocaleDateString('es-ES', {
-            dateStyle: 'medium'
-        });
-    };
 
     if(loading) {
         return <Loader fullScreen={true} />;
@@ -66,6 +104,8 @@ export default function IdeaFavorites() {
                                 ideaId={idea.ideaId}
                                 isLiked={idea.isLiked}
                                 createdAt={idea.generationDate}
+                                handleFavorite={handleFavorite}
+                                isFavorite={favorites.includes(idea.ideaId)}
                         />
                         ))}
                     </div>

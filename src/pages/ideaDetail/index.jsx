@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { useAuth } from "../../contexts/AuthContext";
 import './IdeaDetail.css';
+import Loader from "../../components/Loader";
 
 export default function IdeaDetail() {
     const { id } = useParams();  // Obtenemos el ID de la URL
